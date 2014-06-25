@@ -7,7 +7,7 @@
 var sd;
 chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
   sd = suggest;
-  chrome.runtime.sendMessage("hldcppfhjnogclckeodojnikfkjjpnjo","downloaddeterminingfilename",function(response) {
+  chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa","downloaddeterminingfilename",function(response) {
   console.log(response.filename);
   
   suggest({filename: response.filename,

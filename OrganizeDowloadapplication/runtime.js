@@ -20,7 +20,7 @@ if (message == "downloaddeterminingfilename") {
 
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
 	console.log("fgf"+message.filename);
-	chrome.runtime.sendMessage("clpmijcdmbdjmbjbgoleamlmccdpgoif",{"filename" : String(message.filename) },function(response) { 
+	chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
 		console.log(response);
 	});
 	senderResonsefff("ok");
@@ -43,11 +43,5 @@ chrome.mediaGalleries.onScanProgress.addListener(function (details) {
 });
 
 
-scanGalleries = function () {
-	for ( var i=0; i< scan_results.length;i++) {
-		var gallData = chrome.mediaGalleries.getMediaFileSystemMetadata(scan_results[i]);
-		console.out("Gallery Name: "+ gallData.name+ " Gallery Id: "+ gallData.galleryId);
-	}
-}
 
 scan_mediagallaries();
