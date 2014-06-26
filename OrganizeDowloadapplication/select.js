@@ -6,8 +6,34 @@ var scan_reader = null;
 var scan_directories = [];
 var dire_entry;
 
-function errorPrintFactory(err) {
-	console.log(err);
+
+function errorPrintFactory(custom) {
+   return function(e) {
+      var msg = '';
+
+      switch (e.code) {
+         case FileError.QUOTA_EXCEEDED_ERR:
+            msg = 'QUOTA_EXCEEDED_ERR';
+            break;
+         case FileError.NOT_FOUND_ERR:
+            msg = 'NOT_FOUND_ERR';
+            break;
+         case FileError.SECURITY_ERR:
+            msg = 'SECURITY_ERR';
+            break;
+         case FileError.INVALID_MODIFICATION_ERR:
+            msg = 'INVALID_MODIFICATION_ERR';
+            break;
+         case FileError.INVALID_STATE_ERR:
+            msg = 'INVALID_STATE_ERR';
+            break;
+         default:
+            msg = 'Unknown Error';
+            break;
+      };
+
+      console.log(custom + ': ' + msg);
+   };
 }
 function filecollection(entry) {
 	this.direntry = entry;
@@ -33,13 +59,16 @@ function GalleryData(id) {
 
 function scanGallery(entries){
 	if (entries.length ==0) {
-		if (scan_directories >0) {
+		if (scan_directories.length >0) {
+//			console.log("scan dir lengh : "+scan_directories.length);
 			dire_entry = scan_directories.shift();
+//			console.log("scan dir lengh : "+scan_directories.length);
 			scan_reader = dire_entry.createReader();
+			console.log("Scanning sub directories : "+dire_entry.fullPath +" " + dire_entry.name);
 			scan_reader.readEntries(scanGallery,errorPrintFactory('scanning sub directory'));
 		}
 		else {
-			scan_resultsindex =  scan_resultsindex+1;
+			scan_resultsindex++;
 			if (scan_resultsindex < scan_results.length) {		
 				scanGalleries(scan_results[scan_resultsindex]);
 			}	
@@ -49,7 +78,7 @@ function scanGallery(entries){
 	var directoryrepo;
 	for (var i=0;i< entries.length;i++) {
 		for (var j =0;j<scan_results.length;j++){
-			if (scan_results[j] == entries[0].filesystem) {
+			if (scan_results[j] == entries[i].filesystem) {
 				directoryrepo = scan_gallData[j];
 			}
 		}
@@ -83,14 +112,16 @@ function scanGallery(entries){
 		}
 		else if(entries[i].isDirectory) {
 			var directorybank = directoryrepo.gallDirectories;
-
-			scan_directories.push(entries[i]);
-			directoryrepo.numDirs++;
-			console.log(directorybank.directoriesindex);
-			directorybank.directoriesindex++;
-			console.log(directorybank.directoriesindex);
-			console.log("directories"+ entries[i]+directorybank.directories.length);
-			directorybank.directories[directorybank.directories.length] = new filecollection(entries[i]);
+			console.log("directory : "+entries[i].fullPath);
+			if (entries[i].fullPath != "/") {
+				scan_directories.push(entries[i]);
+				directoryrepo.numDirs++;
+				directorybank.directoriesindex++;
+				directorybank.directories[directorybank.directories.length] = new filecollection(entries[i]);
+			}
+			else {
+				console.log("skipping root due to recursion, some issue with file system");
+			}
 		}
 	}
 	scan_reader.readEntries(scanGallery,errorPrintFactory('read more Entries'));
@@ -98,6 +129,7 @@ function scanGallery(entries){
 
 function scanGalleries (fs) {
 	var gallData = chrome.mediaGalleries.getMediaFileSystemMetadata(fs);
+	console.log("Scanning New gallery+ :"+gallData.name);
 	scan_gallData[scan_resultsindex] = new GalleryData(gallData.galleryId);
 	scan_gallData[scan_resultsindex].path = gallData.name;
 	var directories = scan_gallData[scan_resultsindex].gallDirectories.directories;
