@@ -251,11 +251,12 @@ function displayGallaries() {
 	var gtext = ggroups.append("text")
 	    .attr("x", function(d,i){return xlinear(i - ((i%3))) + 30;})
 	    .attr("y", function(d,i){return (ylinear(2*(i%3))) + 30;})
-	    .attr("dy", function(d,i){return 20;})
-	    .text(function(d){return d})
+	    .attr("dy", function(d,i){return 35;})
+	    .attr("dx", function(d,i){return 20;})
+	    .text(function(d){ var a =  d.split("/"); return a[a.length - 1]})
 	    .attr("font-family", "sans-serif")
-	    .attr("textLength", 100)
-            .attr("font-size", "10px")
+            .attr("font-size", "13px")
+            .attr("font-weight", "bold")
             .attr("fill", "red");
 
 
