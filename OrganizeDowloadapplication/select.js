@@ -64,13 +64,17 @@ function scanGallery(entries){
 			dire_entry = scan_directories.shift();
 //			console.log("scan dir lengh : "+scan_directories.length);
 			scan_reader = dire_entry.createReader();
-			console.log("Scanning sub directories : "+dire_entry.fullPath +" " + dire_entry.name);
+			//console.log("Scanning sub directories : "+dire_entry.fullPath +" " + dire_entry.name);
 			scan_reader.readEntries(scanGallery,errorPrintFactory('scanning sub directory'));
 		}
 		else {
 			scan_resultsindex++;
 			if (scan_resultsindex < scan_results.length) {		
 				scanGalleries(scan_results[scan_resultsindex]);
+			}
+			else {
+				console.log("scanning finished");
+				displayGallaries();
 			}	
 		}
 		return;
@@ -112,7 +116,7 @@ function scanGallery(entries){
 		}
 		else if(entries[i].isDirectory) {
 			var directorybank = directoryrepo.gallDirectories;
-			console.log("directory : "+entries[i].fullPath);
+			//console.log("directory : "+entries[i].fullPath);
 			if (entries[i].fullPath != "/") {
 				scan_directories.push(entries[i]);
 				directoryrepo.numDirs++;
@@ -193,5 +197,71 @@ if (scan_results == undefined) {
 function add_scan_results() {
 	chrome.mediaGalleries.addScanResults(getGalleriesInfo);
 }
+
+function  getDirectoryData() {
+	var data =[];
+	for(var i =0;i< scan_results.length;i++) {
+		var directorylist = scan_gallData[i].gallDirectories.directories;
+		for ( var j=0;j< directorylist.length;j++) {
+			var filelist = directorylist[j].direntry.fullPath;
+			if (filelist == undefined) {
+				filelist = scan_gallData[i].path; 
+			}
+			data[data.length] = filelist;
+		}
+	}
+	return data;
+}
+
+function displayGallaries() {
+	console.log("entering display galleries")
+	//var  directories  = ["/","/home/gaurav","/home/gaurav/movies"];
+	var  directories  = getDirectoryData().splice(0,10);
+
+	//select th-
+	var body = d3.select("body");
+
+	//Append the svg element to body and set the properties.
+	var svg =  body.append("svg")
+		   .attr("width",900)
+		   .attr("height",500);
+
+	//Linear scale for placing the circles.
+
+	var xlinear = d3.scale.linear().
+		domain([0,directories.length]).
+		range(["0","900"]);
+
+	var ylinear = d3.scale.linear().
+		domain([0,directories.length]).
+		range(["0","500"]);
+
+
+	var gmain = svg.selectAll("g circle");
+
+	var ggroups = gmain.data(directories).enter()
+		.append("g");
+
+
+	var gcircle = ggroups.append("circle").attr("cx", function(x,i) { return xlinear(i - ((i%3)))+70;})
+	    .attr("cy", function(y,i) { return (ylinear(2*(i%3)))+70;})
+	    .attr("r", 40)
+	    .style("fill", "blue");
+
+	var gtext = ggroups.append("text")
+	    .attr("x", function(d,i){return xlinear(i - ((i%3))) + 30;})
+	    .attr("y", function(d,i){return (ylinear(2*(i%3))) + 30;})
+	    .attr("dy", function(d,i){return 20;})
+	    .text(function(d){return d})
+	    .attr("font-family", "sans-serif")
+	    .attr("textLength", 100)
+            .attr("font-size", "10px")
+            .attr("fill", "red");
+
+
+	console.log("Leaving display galleries")
+}
+
+
 
 document.addEventListener('DOMContentLoaded', restore_options);
