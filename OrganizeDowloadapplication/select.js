@@ -213,6 +213,15 @@ function  getDirectoryData() {
 	return data;
 }
 
+
+
+function mouseover(d,i) {
+var circle = d3.select("#circle"+i);
+circle.attr("stroke","black");
+console.log(circle);
+console.log(i);
+}
+
 function displayGallaries() {
 	console.log("entering display galleries")
 	//var  directories  = ["/","/home/gaurav","/home/gaurav/movies"];
@@ -246,7 +255,9 @@ function displayGallaries() {
 	var gcircle = ggroups.append("circle").attr("cx", function(x,i) { return xlinear(i - ((i%3)))+70;})
 	    .attr("cy", function(y,i) { return (ylinear(2*(i%3)))+70;})
 	    .attr("r", 40)
-	    .style("fill", "blue");
+	    .style("fill", "blue")
+	    .attr("id",function (d,i) { return "circle"+i;})
+	    .on("mouseover",mouseover);
 
 	var gtext = ggroups.append("text")
 	    .attr("x", function(d,i){return xlinear(i - ((i%3))) + 30;})
@@ -262,6 +273,7 @@ function displayGallaries() {
 
 	console.log("Leaving display galleries")
 }
+
 
 
 
