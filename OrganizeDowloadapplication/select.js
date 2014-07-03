@@ -221,7 +221,9 @@ function  getDirectoryData() {
 function mouseover(d,i) {
 	//Select correct circle
 	var circle = d3.select("#circle"+i);
-
+	var text = d3.select("#text"+i);
+	console.log(d);
+	text.text(d);
 	//set the transition to expand circle with expand for 700ms
 	circle.attr("stroke","black")
 	.transition()
@@ -249,8 +251,14 @@ console.log(i);
 
 function mouseout(d,i) {
 	var circle = d3.select("#circle"+i);
+	var a = d.split("/");
+	var text = d3.select("#text"+i);
+	console.log(a[a.length-1]);
+	text.text(a[a.length-1]);
+	
 	var currentlength = circle.property("r")["baseVal"]["value"];
 	circle.attr("stroke","black")
+	.text(a[a.length - 1])
 	.transition()
 	.duration(700)
 	.attr("r", 40)
@@ -324,6 +332,7 @@ function displayGallaries() {
 	    .attr("y", function(d,i){return (ylinear(2*(i%4))) + 30;})
 	    .attr("dy", function(d,i){return 35;})
 	    .attr("dx", function(d,i){return 20;})
+	    .attr("id",function (d,i) { return "text"+i;})
 	    .text(function(d){ var a =  d.split("/"); return a[a.length - 1]})
 	    .attr("font-family", "sans-serif")
             .attr("font-size", "13px")
