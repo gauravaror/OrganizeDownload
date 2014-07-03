@@ -274,6 +274,10 @@ console.log(circle);
 console.log(i);
 }
 
+function dblclick(d,i) {
+document.getElementById('namefield').value = d ;
+	
+}
 
 function displayGallaries() {
 	console.log("entering display galleries")
@@ -312,7 +316,8 @@ function displayGallaries() {
 	    .style("fill", "blue")
 	    .attr("id",function (d,i) { return "circle"+i;})
 	    .on("click",mouseover)
-	    .on("mouseout",mouseout);
+	    .on("mouseout",mouseout)
+	    .on("dblclick",dblclick);
 
 	var gtext = ggroups.append("text")
 	    .attr("x", function(d,i){return xlinear(i - ((i%4))) + 30;})
