@@ -5,6 +5,9 @@ var scan_gallData = [];
 var scan_reader = null;
 var scan_directories = [];
 var dire_entry;
+var directories;
+var xlinear;
+var ylinear;
 
 
 function errorPrintFactory(custom) {
@@ -216,16 +219,66 @@ function  getDirectoryData() {
 
 
 function mouseover(d,i) {
-var circle = d3.select("#circle"+i);
-circle.attr("stroke","black");
+	//Select correct circle
+	var circle = d3.select("#circle"+i);
+
+	//set the transition to expand circle with expand for 700ms
+	circle.attr("stroke","black")
+	.transition()
+	.duration(700)
+	.attr("r", 100);
+
+	//Set the animantion on mouseout. to have yellow circle contracting when mouse go  out.
+//	circle.on("mouseleave",mouseout);
+	
+//Creating Animation for out
+	d3.select("svg").append("circle")
+		.attr("cx", function(x,ind) { return xlinear(i - ((i%4)))+70;})
+		.attr("cy", function(y,ind) { return (ylinear(2*(i%4)))+70;})
+		.attr("r", 0)
+		.style("fill", "green")
+		.attr("opacity",0)
+		.transition()
+		.duration(600)
+		.attr("r", 100)
+		.attr("opacity",1)
+		.remove();
 console.log(circle);
 console.log(i);
 }
 
+function mouseout(d,i) {
+	var circle = d3.select("#circle"+i);
+	var currentlength = circle.property("r")["baseVal"]["value"];
+	circle.attr("stroke","black")
+	.transition()
+	.duration(700)
+	.attr("r", 40)
+
+//Creating Animation.
+	if ( currentlength > 40) {
+		d3.select("svg").append("circle")
+			.attr("cx", function(x,ind) { return xlinear(i - ((i%4)))+70;})
+			.attr("cy", function(y,ind) { return (ylinear(2*(i%4)))+70;})
+			.attr("r", 200)
+			.style("fill", "yellow")
+			.attr("opacity",0)
+			.transition()
+			.duration(600)
+			.attr("r", 0)
+			.attr("opacity",1)
+			.remove();
+				
+	}
+console.log(circle);
+console.log(i);
+}
+
+
 function displayGallaries() {
 	console.log("entering display galleries")
 	//var  directories  = ["/","/home/gaurav","/home/gaurav/movies"];
-	var  directories  = getDirectoryData().splice(0,10);
+	 directories  = getDirectoryData().splice(0,12);
 
 	//select th-
 	var body = d3.select("body");
@@ -237,11 +290,11 @@ function displayGallaries() {
 
 	//Linear scale for placing the circles.
 
-	var xlinear = d3.scale.linear().
+	xlinear = d3.scale.linear().
 		domain([0,directories.length]).
 		range(["0","900"]);
 
-	var ylinear = d3.scale.linear().
+	ylinear = d3.scale.linear().
 		domain([0,directories.length]).
 		range(["0","500"]);
 
@@ -252,16 +305,18 @@ function displayGallaries() {
 		.append("g");
 
 
-	var gcircle = ggroups.append("circle").attr("cx", function(x,i) { return xlinear(i - ((i%3)))+70;})
-	    .attr("cy", function(y,i) { return (ylinear(2*(i%3)))+70;})
+	var gcircle = ggroups.append("circle")
+	    .attr("cx", function(x,i) { return xlinear(i - ((i%4)))+70;})
+	    .attr("cy", function(y,i) { return (ylinear(2*(i%4)))+70;})
 	    .attr("r", 40)
 	    .style("fill", "blue")
 	    .attr("id",function (d,i) { return "circle"+i;})
-	    .on("mouseover",mouseover);
+	    .on("click",mouseover)
+	    .on("mouseout",mouseout);
 
 	var gtext = ggroups.append("text")
-	    .attr("x", function(d,i){return xlinear(i - ((i%3))) + 30;})
-	    .attr("y", function(d,i){return (ylinear(2*(i%3))) + 30;})
+	    .attr("x", function(d,i){return xlinear(i - ((i%4))) + 30;})
+	    .attr("y", function(d,i){return (ylinear(2*(i%4))) + 30;})
 	    .attr("dy", function(d,i){return 35;})
 	    .attr("dx", function(d,i){return 20;})
 	    .text(function(d){ var a =  d.split("/"); return a[a.length - 1]})
