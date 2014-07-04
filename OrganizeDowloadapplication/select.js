@@ -190,6 +190,9 @@ if (scan_results == undefined) {
 	document.getElementById('add').addEventListener('click',
 	    add_scan_results);
 	document.getElementById('addtext').textContent = "Please click on add to give permission and required gallaries!! This is one time step";
+	
+//	document.getElementById("add").click();
+//	add_scan_results();
 } else {
 	document.getElementById('add').remove();
 }
@@ -286,12 +289,12 @@ function dblclick(d,i) {
 document.getElementById('namefield').value = d ;
 	
 }
-
+/*
 function displayGallaries() {
 	console.log("entering display galleries")
 	//var  directories  = ["/","/home/gaurav","/home/gaurav/movies"];
 	 directories  = getDirectoryData().splice(0,12);
-
+	console.log(directories);
 	//select th-
 	var body = d3.select("body");
 
@@ -343,7 +346,7 @@ function displayGallaries() {
 	console.log("Leaving display galleries")
 }
 
-
+*/
 
 
 document.addEventListener('DOMContentLoaded', restore_options);
