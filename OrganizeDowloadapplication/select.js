@@ -286,7 +286,7 @@ console.log(i);
 }
 
 function dblclick(d,i) {
-document.getElementById('namefield').value = d ;
+document.getElementById('namefield').value = d.full_name ;
 	
 }
 /*

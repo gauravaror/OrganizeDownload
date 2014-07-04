@@ -237,7 +237,8 @@ node.append("circle")
     return "node type" + d.type
 })
     .attr("r", 20)
-    .attr("id", function(d) { return "circle"+d.id});
+    .attr("id", function(d) { return "circle"+d.id})
+    .on("dblclick",dblclick);
 //.on("mouseover", expandNode);
 //.style("fill", function(d) { return fill(d.type); })
 
