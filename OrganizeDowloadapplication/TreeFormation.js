@@ -80,7 +80,7 @@ function Node(value, fullValue) {
                 currentli["target"] = currentchilderens[child].nodeid;
                 currentli["targetname"] = currentchilderens[child].value;
                 currentli["value"] = 1;
-                currentli["distance"] = 6;
+                currentli["distance"] = 6+currentchilderens.length;
                 data["links"][data["links"].length] = currentli;
                 //             print(node.value+" ---> "+currentchilderens[child].value);
                 this.printTree(currentchilderens[child]);
