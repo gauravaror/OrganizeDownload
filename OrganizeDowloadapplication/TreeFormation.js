@@ -1,5 +1,4 @@
 function displayGallaries() {
-//var directories = ["/home/gaurav/Music", "/home/gaurav/Pictures", "/home/gaurav/Videos", "/home/gaurav/Work/Document", "/home/gaurav/Work/FIRE_TRAINING_DATA/terrier-3.5_English/share/images", "/home/gaurav/Work/FIRE_TRAINING_DATA/terrier-3.5_Hindi/share/images", "/home/gaurav/Work/FIRE_TRAINING_DATA/terrier-3.5_Malyalam/share/images", "/home/gaurav/Work/HP", "/home/gaurav/Work/Haraka/Haraka/node_modules/nodeunit/img", "/home/gaurav/Work/Haraka/myApp/node_modules/expres?connect/node_modules/multiparty/test/fixture/file", "/home/gaurav/Work/Haraka/myFork/Haraka/node_modules/nodeunit/img", "/home/gaurav/Work/LocalYoutube/server"];
 //print(directories);
 directories  = getDirectoryData().splice(0,30);
 var currentnodenumber = 0;
@@ -122,7 +121,7 @@ function Node(value, fullValue) {
                             nodes.splice(j,1);
                         }
                         if (current.full_name == node.fullValue) {
-                            nodes.name = node.value;
+                            nodes[j].name = node.value;
                         }
                     }
                 }
