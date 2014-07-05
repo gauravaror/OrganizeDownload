@@ -15,6 +15,8 @@ function Node(value, fullValue) {
     this.value = value;
     this.fullValue = fullValue;
     this.nodeid = currentnodenumber;
+    this.reduced = false;
+
     currentcl = {};
     currentcl["name"] = value;
     currentcl["full_name"] = fullValue;
@@ -75,6 +77,18 @@ function Node(value, fullValue) {
         if (currentchilderens.length > 0) {
             for (var child = 0; child < currentchilderens.length; child++) {
                 var currentli = {};
+                    var nodes = data["nodes"];
+                    var sourceindex = node.nodeid;
+                    var targetindex = currentchilderens[child].nodeid;
+                    for (var j =0;j<nodes.length;j++) {
+                        var current =  nodes[j];
+                        if (current.full_name == node.fullValue) {
+                            sourceindex = j;
+                        }
+                        if (current.full_name == currentchilderens[child].fullValue) {
+                            targetindex = j;
+                        }
+                    }
                 currentli["source"] = node.nodeid;
                 currentli["sourcename"] = node.value;
                 currentli["target"] = currentchilderens[child].nodeid;
@@ -91,6 +105,33 @@ function Node(value, fullValue) {
 
     };
 
+    this.reduceTree = function (node) {
+        if ( node.getParentNode()&& node.getParentNode().children.length == 1 && node.children.length == 1 && node.getParentNode().reduced == false) {
+            var childofsuperparent = node.getParentNode().getParentNode().children;
+            var parent_ = node.getParentNode();
+            for (var i =0;i<childofsuperparent.length;i++) {
+                if (childofsuperparent[i].fullValue == parent_.fullValue){  
+                    childofsuperparent[i] = node;
+                    node.setParentNode(node.getParentNode().getParentNode());
+                    node.value = parent_.value+"/"+node.value;
+                    node.reduced = true;
+                    var nodes = data["nodes"];
+                    for (var j =0;j<nodes.length;j++) {
+                        var current =  nodes[j];
+                        if (current.full_name == parent_.fullValue) {
+                            nodes.splice(j,1);
+                        }
+                        if (current.full_name == node.fullValue) {
+                            nodes.name = node.value;
+                        }
+                    }
+                }
+            }
+        }
+        for (var ch =0;ch<node.children.length;ch++){
+            this.reduceTree(node.children[ch]);
+        }
+    }
 }
 
 
@@ -132,6 +173,11 @@ while (conti) {
     index++;
 }
 
+mainillusionarynode.reduceTree(mainillusionarynode);
+for (var n =0;n<data["nodes"].length;n++) {
+    var cnode = mainillusionarynode.searchChildren(mainillusionarynode,data["nodes"][n].full_name);
+    cnode.nodeid = n;
+}
 mainillusionarynode.printTree(mainillusionarynode);
 for (i = 0; i < data["nodes"].length; i++) {
     //  print(data["nodes"][i].name);
