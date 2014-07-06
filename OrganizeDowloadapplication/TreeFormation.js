@@ -1,7 +1,6 @@
-function displayGallaries() {
 //print(directories);
-directories  = getDirectoryData().splice(0,30);
 var currentnodenumber = 0;
+var mainillusionarynode = null;
 
 
 var data = {};
@@ -105,7 +104,7 @@ function Node(value, fullValue) {
     };
 
     this.reduceTree = function (node) {
-        if ( node.getParentNode()&& node.getParentNode().children.length == 1 && node.children.length == 1 && node.getParentNode().reduced == false) {
+        if ( node.getParentNode()&& node.getParentNode().children.length == 1 && node.children.length == 1 && node.getParentNode().reduced == false && node.reduced == false) {
             var childofsuperparent = node.getParentNode().getParentNode().children;
             var parent_ = node.getParentNode();
             for (var i =0;i<childofsuperparent.length;i++) {
@@ -124,6 +123,9 @@ function Node(value, fullValue) {
                             nodes[j].name = node.value;
                         }
                     }
+                    parent_.removeChildren();
+                    parent_.fullValue = "";
+                    parent_.value = "";
                 }
             }
         }
@@ -133,11 +135,13 @@ function Node(value, fullValue) {
     }
 }
 
+function displayGallaries() {
 
-var mainillusionarynode = new Node("root", "start");
+mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
 
+directories  = getDirectoryData().splice(0,30);
 for (var i = 0; i < directories.length; i++) {
     var dir = directories[i].split("/");
     splitdirectories[i] = dir.splice(1, dir.length);
@@ -176,6 +180,7 @@ mainillusionarynode.reduceTree(mainillusionarynode);
 for (var n =0;n<data["nodes"].length;n++) {
     var cnode = mainillusionarynode.searchChildren(mainillusionarynode,data["nodes"][n].full_name);
     cnode.nodeid = n;
+    data["nodes"][n].id =  n;
 }
 mainillusionarynode.printTree(mainillusionarynode);
 for (i = 0; i < data["nodes"].length; i++) {
@@ -204,7 +209,6 @@ var vis = d3.select("body").append("svg:svg")
 //.append("path")
 //.attr("d", "M 0,0 V 4 L6,2 Z"); //this is actual shape for arrowhead
 
-//d3.json(data, function(json) {
 var force = self.force = d3.layout.force()
     .nodes(data.nodes)
     .links(data.links)
