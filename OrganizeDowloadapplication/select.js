@@ -77,6 +77,10 @@ function scanGallery(entries){
 			}
 			else {
 				console.log("scanning finished");
+                chrome.runtime.getBackgroundPage(function (bg) {
+                    bg.scan_results = scan_results;
+                    bg.scan_gallData = scan_gallData;
+                });
 				displayGallaries();
 			}	
 		}
@@ -186,17 +190,22 @@ function restore_options() {
 document.getElementById('namefield').value = "./" ;
 document.getElementById('save').addEventListener('click',
     save_options);
-if (scan_results == undefined) {
-	document.getElementById('add').addEventListener('click',
-	    add_scan_results);
-	document.getElementById('addtext').textContent = "Please click on add to give permission and required gallaries!! This is one time step";
+chrome.runtime.getBackgroundPage(function (bg) {
+    scan_results = bg.scan_results;
+    scan_gallData = bg.scan_gallData;
+    if (scan_results === undefined || scan_results.length == 0  ||  scan_gallData.length  != scan_results.length ) {
+	    document.getElementById('add').addEventListener('click',
+	        add_scan_results);
+    	document.getElementById('addtext').textContent = "Please click on add to give permission and required gallaries!! This is one time step";
 	
-//	document.getElementById("add").click();
-//	add_scan_results();
-} else {
-	document.getElementById('add').remove();
-}
+    //	document.getElementById("add").click();
+    //	add_scan_results();
+    } else {
+	    document.getElementById('add').remove();
+		displayGallaries();
+    }
 
+});
 
 }
 

@@ -1,7 +1,7 @@
 
 var scan_progress;
-var scan_results = [];
-var scan_resultsindex = 0;
+var scan_results;
+var scan_gallData = [];
 
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
 if (message == "downloaddeterminingfilename") {
