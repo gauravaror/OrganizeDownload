@@ -20,6 +20,7 @@ function Node(value, fullValue) {
     currentcl["full_name"] = fullValue;
     currentcl["type"] = 1;
     currentcl["id"] = this.nodeid;
+    currentcl["size"] = 1;
 
     data["nodes"][data["nodes"].length] = currentcl;
     currentnodenumber++;
@@ -76,15 +77,15 @@ function Node(value, fullValue) {
             for (var child = 0; child < currentchilderens.length; child++) {
                 var currentli = {};
                     var nodes = data["nodes"];
-                    var sourceindex = node.nodeid;
-                    var targetindex = currentchilderens[child].nodeid;
+                    var sourcesize = 1;
+                    var targetsize = 1;
                     for (var j =0;j<nodes.length;j++) {
                         var current =  nodes[j];
                         if (current.full_name == node.fullValue) {
-                            sourceindex = j;
+                            sourcesize = current.size;
                         }
                         if (current.full_name == currentchilderens[child].fullValue) {
-                            targetindex = j;
+                            targetsize = current.size;
                         }
                     }
                 currentli["source"] = node.nodeid;
@@ -92,7 +93,7 @@ function Node(value, fullValue) {
                 currentli["target"] = currentchilderens[child].nodeid;
                 currentli["targetname"] = currentchilderens[child].value;
                 currentli["value"] = 1;
-                currentli["distance"] = 6+currentchilderens.length;
+                currentli["distance"] = (sourcesize*targetsize*6) +currentchilderens.length;
                 data["links"][data["links"].length] = currentli;
                 //             print(node.value+" ---> "+currentchilderens[child].value);
                 this.printTree(currentchilderens[child]);
@@ -121,6 +122,7 @@ function Node(value, fullValue) {
                         }
                         if (current.full_name == node.fullValue) {
                             nodes[j].name = node.value;
+                            nodes[j].size = 1.2;
                         }
                     }
                     parent_.removeChildren();
@@ -141,7 +143,7 @@ mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
 
-directories  = getDirectoryData().splice(0,30);
+directories  = getDirectoryData().splice(0,15);
 for (var i = 0; i < directories.length; i++) {
     var dir = directories[i].split("/");
     splitdirectories[i] = dir.splice(1, dir.length);
@@ -285,7 +287,7 @@ node.append("circle")
     .attr("class", function (d) {
     return "node type" + d.type
 })
-    .attr("r", 20)
+    .attr("r", function (d) { return d.size*25;})
     .attr("id", function(d) { return "circle"+d.id})
     .on("dblclick",dblclick);
 //.on("mouseover", expandNode);
@@ -332,7 +334,7 @@ node.on("mouseover", function (d) {
         d3.select(this).select('circle')
             .transition()
             .duration(300)
-            .attr("r", 50)
+            .attr("r", function (d) { return d.size*50;})
             .attr("class", function (d) {
                 return "node type" + 2;
             });
@@ -367,7 +369,7 @@ node.on("mouseout", function (d) {
         d3.select(this).select('circle')
             .transition()
             .duration(300)
-            .attr("r", 18)
+            .attr("r", function (d) { return d.size*25;})
             .attr("class", function (d) {
                 return "node type" + d.type;
             });
