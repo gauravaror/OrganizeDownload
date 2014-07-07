@@ -4,7 +4,7 @@
   "manifest_version": 2,
   "description": "App to show folders and select the main",
   "permissions": [{
-      "mediaGalleries": ["read", "scan", "allAutoDetected"]
+      "mediaGalleries": ["read", "delete","copyTo","scan", "allAutoDetected"]
   }],
   "externally_connectable": {
 	"ids": ["*"],

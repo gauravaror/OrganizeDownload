@@ -5,14 +5,15 @@
 // Force all downloads to overwrite any existing files instead of inserting
 // ' (1)', ' (2)', etc.
 var sd;
+var filename;
+var orignal;
+var orignalfilename;
 chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
   sd = suggest;
-  chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa","downloaddeterminingfilename",function(response) {
-  console.log(response.filename);
-  
-  suggest({filename: response.filename,
-           conflict_action: 'overwrite',
-           conflictAction: 'overwrite'});
+  orignal = item;
+  orignalfilename = item.filename;
+  chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa",[ "downloaddeterminingfilename",item],function(response) {
+      console.log(response);
 });
 return true;
   // conflict_action was renamed to conflictAction in
@@ -22,7 +23,19 @@ return true;
 
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
 console.log(message.filename+"  sdfds");
+filename = message.filename;
 sd({filename: message.filename,
            conflict_action: 'overwrite',
            conflictAction: 'overwrite'});
 });
+
+chrome.downloads.onChanged.addListener(function (downloadDelta) {
+        console.log(downloadDelta);
+        if (downloadDelta && downloadDelta.state && downloadDelta.state.current == 'complete') {
+           chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa",[ "moveFile" , orignalfilename,filename],function (response) {
+                console.log(response);
+            });
+        } else if (downloadDelta && downloadDelta.filename) {
+            orignalfilename = downloadDelta.filename.current;
+        }
+    });
