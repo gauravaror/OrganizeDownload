@@ -190,6 +190,9 @@ function restore_options() {
 document.getElementById('namefield').value = "./" ;
 document.getElementById('save').addEventListener('click',
     save_options);
+document.getElementById('add-folder-button').addEventListener("click", function() {
+      chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
+});
 chrome.runtime.getBackgroundPage(function (bg) {
     scan_results = bg.scan_results;
     scan_gallData = bg.scan_gallData;
