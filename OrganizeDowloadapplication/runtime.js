@@ -9,6 +9,9 @@ var currentreader=null;
 var index=0;
 var lengthfs;
 var scanningdone = false;
+var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
+var audFormats = ['wav', 'mp3'];
+var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
 
 
 function scanDir(entries) {
@@ -17,9 +20,22 @@ function scanDir(entries) {
     }
 }
 
+function isSupportedFile(item) {
+    var filename = item.filename;
+    var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+    if (imgFormats.indexOf(ext) >= 0)
+      return true;
+    else if (audFormats.indexOf(ext) >= 0)
+      return true;
+    else if (vidFormats.indexOf(ext) >= 0)
+      return true;
+    else return false;
+
+}
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
 if (message[0] == "downloaddeterminingfilename") {
-	
+    console.log(message[1]);	
+    if (isSupportedFile(message[1])) {
 	chrome.app.window.create('selectName.html', 
     		{bounds: {width:900, height:600}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
 	    	function(app_win) {
@@ -27,6 +43,10 @@ if (message[0] == "downloaddeterminingfilename") {
 	    	}
 	    );
 	    console.log("app launched"+message);
+    } else {
+        sendResponse();
+        console.log("extension not supported")
+    }
 }
 else if (message[0] == "moveFile") {
     console.log("location : " + message[1] + " moe "+message[2]);

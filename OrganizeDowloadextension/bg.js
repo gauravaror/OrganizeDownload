@@ -14,6 +14,7 @@ chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
   orignalfilename = item.filename;
   chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa",[ "downloaddeterminingfilename",item],function(response) {
       console.log(response);
+      suggest();  
 });
 return true;
   // conflict_action was renamed to conflictAction in
