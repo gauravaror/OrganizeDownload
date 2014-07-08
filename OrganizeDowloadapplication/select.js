@@ -298,9 +298,17 @@ console.log(i);
 }
 
 function dblclick(d,i) {
-document.getElementById('namefield').value = d.full_name ;
-	
+chrome.runtime.getBackgroundPage(function (bgp) {
+    var name = d.full_name.split("/");
+    name.splice(name.length-1,1);
+    var stringname = name.join("/");
+    var available = bgp.directory_data[stringname];
+    if (available) {
+        document.getElementById('namefield').value = d.full_name ;
+    }
+});
 }
+	
 /*
 function displayGallaries() {
 	console.log("entering display galleries")
