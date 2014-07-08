@@ -9,6 +9,21 @@ var directories;
 var xlinear;
 var ylinear;
 
+var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
+var audFormats = ['wav', 'mp3'];
+var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
+
+function getFileType(filename) {
+   var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
+   if (imgFormats.indexOf(ext) >= 0)
+      return 0; // Returning 0 for image
+   else if (audFormats.indexOf(ext) >= 0)
+      return 1; //Returning 1 for image.
+   else if (vidFormats.indexOf(ext) >= 0)
+      return 2;//returning 2 for video.
+   else return null;
+}
+
 
 function errorPrintFactory(custom) {
    return function(e) {
@@ -43,6 +58,7 @@ function filecollection(entry) {
 	this.dirFiles = [];
 	this.dirFilesmetaData = [];
 	this.dirFileindex = 0;
+    this.type = [0,0,0]
 }
 
 function dircollection() {
@@ -81,7 +97,10 @@ function scanGallery(entries){
                     bg.scan_results = scan_results;
                     bg.scan_gallData = scan_gallData;
                 });
-				displayGallaries();
+                chrome.runtime.getBackgroundPage(function(bgp) {
+                    var filetype = getFileType(bgp.currentworkingfile.filename)
+    				displayGallaries(filetype);
+                });
 			}	
 		}
 		return;
@@ -111,6 +130,8 @@ function scanGallery(entries){
 
 
 			currentdirectory.dirFiles[currentdirectory.dirFiles.length] =  entries[i];
+            var filetype = getFileType(entries[i].name);
+            currentdirectory.type[filetype]++;
 			currentdirectory.dirFileindex++;
 			directoryrepo.numFiles++;
 
@@ -205,7 +226,10 @@ chrome.runtime.getBackgroundPage(function (bg) {
     //	add_scan_results();
     } else {
 	    document.getElementById('add').remove();
-		displayGallaries();
+        chrome.runtime.getBackgroundPage(function(bgp) {
+            var filetype = getFileType(bgp.currentworkingfile.filename)
+    		displayGallaries(filetype);
+        });
     }
 
 });
@@ -216,17 +240,19 @@ function add_scan_results() {
 	chrome.mediaGalleries.addScanResults(getGalleriesInfo);
 }
 
-function  getDirectoryData() {
+function  getDirectoryData(filetype) {
 	var data =[];
 	for(var i =0;i< scan_results.length;i++) {
 		var directorylist = scan_gallData[i].gallDirectories.directories;
 		for ( var j=0;j< directorylist.length;j++) {
-			var filelist = directorylist[j].direntry.fullPath;
-			if (filelist == undefined) {
-				filelist = scan_gallData[i].path; 
-			}
-			data[data.length] = filelist;
-		}
+            if (directorylist[j].type[filetype]> 0) {
+    			var filelist = directorylist[j].direntry.fullPath;
+	    		if (filelist == undefined) {
+		    		filelist = scan_gallData[i].path; 
+			    }
+    			data[data.length] = filelist;
+	    	}
+        }
 	}
 	return data;
 }

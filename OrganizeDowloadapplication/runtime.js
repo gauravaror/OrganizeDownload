@@ -6,6 +6,7 @@ var scan_reader = null;
 var directory_data = {}
 var file_data = {}
 var currentreader=null;
+var currentworkingfile;
 var index=0;
 var lengthfs;
 var scanningdone = false;
@@ -34,7 +35,8 @@ function isSupportedFile(item) {
 }
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
 if (message[0] == "downloaddeterminingfilename") {
-    console.log(message[1]);	
+    console.log(message[1]);
+    currentworkingfile = message[1];	
     if (isSupportedFile(message[1])) {
 	chrome.app.window.create('selectName.html', 
     		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 

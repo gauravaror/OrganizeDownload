@@ -141,12 +141,12 @@ function Node(value, fullValue) {
     }
 }
 
-function displayGallaries() {
+function displayGallaries(filetype) {
 mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
 
-directories  = getDirectoryData().splice(0,15);
+directories  = getDirectoryData(filetype).splice(0,15);
 for (var i = 0; i < directories.length; i++) {
     var dir = directories[i].split("/");
     splitdirectories[i] = dir.splice(1, dir.length);
