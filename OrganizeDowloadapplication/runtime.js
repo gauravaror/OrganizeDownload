@@ -2,6 +2,7 @@
 var scan_progress;
 var scan_results;
 var scan_gallData = [];
+var scan_directories = [];
 var scan_reader = null;
 var directory_data = {}
 var file_data = {}
@@ -107,13 +108,20 @@ chrome.mediaGalleries.getMediaFileSystems(function(filesystem) {
 function scanfs(entries) {
     console.log(entries);   
     if (entries.length == 0) {
-        index++;
-        if (index<lengthfs) {
-         getDirectoryEntry(); 
-        }else {
-            console.log("done scanning");
-            scanningdone = true;
-            return;
+        if (scan_directories.length >0) {
+            var dir = scan_directories.shift();
+            currentreader = dir.createReader();
+            currentreader.readEntries( scanfs, function(r) {console.log(r)});
+                
+        } else {
+            index++;
+            if (index<lengthfs) {
+                 getDirectoryEntry(); 
+            } else {
+                console.log("done scanning");
+                scanningdone = true;
+                return;
+            }
         }
         return;
     }
@@ -121,6 +129,7 @@ function scanfs(entries) {
         if (entries[i].isDirectory) {
             var cmeta = chrome.mediaGalleries.getMediaFileSystemMetadata(entries[i].filesystem);
             directory_data[cmeta.name+entries[i].fullPath] = entries[i];
+            scan_directories.push(entries[i]);
         }
         else if(entries[i].isFile) {
             var cmeta = chrome.mediaGalleries.getMediaFileSystemMetadata(entries[i].filesystem);
