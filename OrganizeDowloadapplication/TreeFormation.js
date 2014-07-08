@@ -409,4 +409,5 @@ force.on("tick", function () {
     });
 });
 document.getElementById("namefield").size = maxlength;
+document.getElementById('addtext').textContent = 'Gallery count: ' + scan_results.length;
 }
