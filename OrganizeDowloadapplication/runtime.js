@@ -37,24 +37,33 @@ else if (message[0] == "moveFile") {
     console.log(name);
     var direntry1 = directory_data[name];
     console.log(direntry1);
-    var filename2 = message[2].split("/");
-    filename2.splice(filename2.length-1,1);
-    var name2 = filename2.join("/");
-    console.log(name2);
-    var direntry2 = directory_data[name2];
-    console.log(direntry2);
-    var reader = direntry1.createReader();
-    reader.readEntries(function(entries){ 
-        for (var o=0;o<entries.length;o++) {
-            if (entries[o].name == fn) {
-                var ferror = function() {console.log("error "+ fn)};
-                var fsuccess = function() {console.log("success "+ fn)};
-                entries[o].copyTo(direntry2,fn,fsuccess,ferror);
+    if (message[2] !== null) {
+        var filename2 = message[2].split("/");
+        filename2.splice(filename2.length-1,1);
+        var name2 = filename2.join("/");
+        console.log(name2);
+        var direntry2 = directory_data[name2];
+        console.log(direntry2);
+        if ( direntry1 && direntry2) {
+        var reader = direntry1.createReader();
+        reader.readEntries(function(entries){ 
+            for (var o=0;o<entries.length;o++) {
+                if (entries[o].name == fn) {
+                    var ferror = function() {console.log("error "+ fn)};
+                    var fsuccess = function() {console.log("success "+ fn)};
+                    entries[o].copyTo(direntry2,fn,fsuccess,ferror);
+                    }
                 }
-            }
-            });
+                });
+            sendResponse("ok");
+        } else {
+            sendResponse("file not available");
         }
-    sendResponse("ok");
+        }
+        else {
+            sendResponse("error selected null");
+        }
+    }
 });
 
 
