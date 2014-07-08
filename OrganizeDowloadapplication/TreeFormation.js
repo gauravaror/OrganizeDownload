@@ -1,6 +1,7 @@
 //print(directories);
 var currentnodenumber = 0;
 var mainillusionarynode = null;
+var maxlength = 20;
 
 
 var data = {};
@@ -12,6 +13,9 @@ function Node(value, fullValue) {
 
     this.value = value;
     this.fullValue = fullValue;
+    if (maxlength < fullValue.length) {
+        maxlength = fullValue.length;
+    }
     this.nodeid = currentnodenumber;
     this.reduced = false;
 
@@ -138,7 +142,6 @@ function Node(value, fullValue) {
 }
 
 function displayGallaries() {
-
 mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
@@ -193,8 +196,8 @@ for (i = 0; i < data["links"].length; i++) {
 }
 
 
-var w = 900,
-    h = 500,
+var w = document.getElementsByTagName("body")[0].clientWidth,
+    h = document.getElementsByTagName("body")[0].clientHeight-100,
     radius = d3.scale.log().domain([0, 312000]).range(["10", "50"]);
 
 var vis = d3.select("body").append("svg:svg")
@@ -405,4 +408,5 @@ force.on("tick", function () {
         return "translate(" + d.x + "," + d.y + ")";
     });
 });
+document.getElementById("namefield").size = maxlength;
 }

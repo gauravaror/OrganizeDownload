@@ -37,7 +37,7 @@ if (message[0] == "downloaddeterminingfilename") {
     console.log(message[1]);	
     if (isSupportedFile(message[1])) {
 	chrome.app.window.create('selectName.html', 
-    		{bounds: {width:900, height:600}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
+    		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
 	    	function(app_win) {
     			app_win.contentWindow.send = sendResponse;
 	    	}

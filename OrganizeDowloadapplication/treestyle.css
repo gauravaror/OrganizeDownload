@@ -1,5 +1,23 @@
 
 @charset"utf-8";
+body {
+   background: #555;
+   color: #eee;
+   font-family: "Open Sans", Arial, sans-serif;
+}
+
+h1 {
+    font-weight: 200;
+    color: white;
+}
+#addtext {
+    border: 1px solid #aaa;
+    background-color: #777;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+}
 
 /* CSS Document */
  .link10 {
