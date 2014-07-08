@@ -241,7 +241,7 @@ function add_scan_results() {
 }
 
 function  getDirectoryData(filetype) {
-	var data =[];
+	var data ={};
 	for(var i =0;i< scan_results.length;i++) {
 		var directorylist = scan_gallData[i].gallDirectories.directories;
 		for ( var j=0;j< directorylist.length;j++) {
@@ -258,7 +258,12 @@ function  getDirectoryData(filetype) {
 	    		if (filelist == undefined) {
 		    		filelist = scan_gallData[i].path; 
 			    }
-    			data[data.length] = filelist;
+                var list=[]
+                for (var file=0;file < directorylist[j].dirFiles.length;file++) {
+                    list.push(directorylist[j].dirFiles[file].name);
+                }
+                
+    			data[ filelist] = list;
 	    	}
         }
 	}

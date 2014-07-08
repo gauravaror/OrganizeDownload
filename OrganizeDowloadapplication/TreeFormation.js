@@ -141,12 +141,17 @@ function Node(value, fullValue) {
     }
 }
 
+
 function displayGallaries(filetype) {
 mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
 
-directories  = getDirectoryData(filetype).splice(0,15);
+var dirwithfiles = getDirectoryData(filetype);
+var dirranked = getRankedDirList(dirwithfiles);
+var keys = [];
+for(var k in dirranked) keys.push(k);
+directories  = keys.splice(0,15);
 for (var i = 0; i < directories.length; i++) {
     var dir = directories[i].split("/");
     splitdirectories[i] = dir.splice(1, dir.length);
