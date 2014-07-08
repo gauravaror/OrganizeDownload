@@ -246,7 +246,15 @@ function  getDirectoryData(filetype) {
 		var directorylist = scan_gallData[i].gallDirectories.directories;
 		for ( var j=0;j< directorylist.length;j++) {
             if (directorylist[j].type[filetype]> 0) {
-    			var filelist = directorylist[j].direntry.fullPath;
+                var filelist;
+                if (directorylist[j].direntry.hasOwnProperty("isFile")) {
+	                var dirData = chrome.mediaGalleries.getMediaFileSystemMetadata(directorylist[j].direntry.filesystem);
+    			    filelist = dirData.name+directorylist[j].direntry.fullPath;
+                    
+                } else {
+	                var dirData = chrome.mediaGalleries.getMediaFileSystemMetadata(directorylist[j].direntry);
+                    filelist = dirData.name;
+                }
 	    		if (filelist == undefined) {
 		    		filelist = scan_gallData[i].path; 
 			    }

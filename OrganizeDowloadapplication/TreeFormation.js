@@ -109,7 +109,7 @@ function Node(value, fullValue) {
     };
 
     this.reduceTree = function (node) {
-        if ( node.getParentNode()&& node.getParentNode().children.length == 1 && node.children.length == 1 && node.getParentNode().reduced == false && node.reduced == false) {
+        if ( node.getParentNode()&& node.getParentNode().children.length == 1 && node.children.length == 1 && node.getParentNode().reduced == false && node.reduced == false  && node.getParentNode().getParentNode()) {
             var childofsuperparent = node.getParentNode().getParentNode().children;
             var parent_ = node.getParentNode();
             for (var i =0;i<childofsuperparent.length;i++) {
