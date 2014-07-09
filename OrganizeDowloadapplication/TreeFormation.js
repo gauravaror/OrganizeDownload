@@ -149,9 +149,7 @@ splitdirectories = [];
 
 var dirwithfiles = getDirectoryData(filetype);
 var dirranked = getRankedDirList(dirwithfiles,filename);
-var keys = [];
-for(var k in dirranked) keys.push(k);
-directories  = keys.splice(0,15);
+directories  = dirranked.splice(0,15);
 for (var i = 0; i < directories.length; i++) {
     var dir = directories[i].split("/");
     splitdirectories[i] = dir.splice(1, dir.length);
