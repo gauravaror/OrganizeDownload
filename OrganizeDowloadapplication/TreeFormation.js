@@ -142,13 +142,13 @@ function Node(value, fullValue) {
 }
 
 
-function displayGallaries(filetype) {
+function displayGallaries(filetype,filename) {
 mainillusionarynode = new Node("root", "start");
 mainillusionarynode.addChild(new Node("/", "/"));
 splitdirectories = [];
 
 var dirwithfiles = getDirectoryData(filetype);
-var dirranked = getRankedDirList(dirwithfiles);
+var dirranked = getRankedDirList(dirwithfiles,filename);
 var keys = [];
 for(var k in dirranked) keys.push(k);
 directories  = keys.splice(0,15);

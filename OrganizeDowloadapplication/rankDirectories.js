@@ -1,4 +1,4 @@
 
-function getRankedDirList(dirwithfilelist) {
+function getRankedDirList(dirwithfilelist,filename) {
     return dirwithfilelist; 
 }
