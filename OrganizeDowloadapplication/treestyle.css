@@ -18,6 +18,15 @@ h1 {
     overflow: hidden;
     padding: 5px;
 }
+#filterbox {
+    border: 1px solid #aaa;
+    background-color: #777;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+}
 
 /* CSS Document */
  .link10 {

@@ -168,3 +168,12 @@ chrome.mediaGalleries.onScanProgress.addListener(function (details) {
 
 
 scan_mediagallaries();
+
+chrome.app.runtime.onLaunched.addListener(function() {
+  chrome.app.window.create('settingorganize.html', {
+    'bounds': {
+      'width': 400,
+      'height': 500
+    }
+  });
+});
