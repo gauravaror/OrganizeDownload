@@ -47,15 +47,28 @@ function addfilters() {
                 mime.value = "";
                 filename.value = "";
                 targetdirectorieselem.selectedIndex = 0;
-                setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000)
+                setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000);
+                showFilters();
             });
           });
     }
-    showFilters();
 }
 
-function deleteRule(currentfilers,r) {
+function deleteRule(currentfilters,r) {
     console.log("Delete rule called"+ r);
+    currentfilters.splice(r,1);
+    chrome.storage.sync.set({
+        filters: currentfilters    
+    },function(){
+        var success = document.getElementById("info");
+        success.textContent = "Filter Successfully deleted:";
+        success.style.color = "Green";
+        success.style.fontSize = "medium";
+        setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000);
+        showFilters();
+    });
+    
+    
 }
 
 function showFilters() {
