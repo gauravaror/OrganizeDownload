@@ -34,7 +34,7 @@ sd({filename: message.filename,
 chrome.downloads.onChanged.addListener(function (downloadDelta) {
         console.log(downloadDelta);
         if (downloadDelta && downloadDelta.state && downloadDelta.state.current == 'complete') {
-           chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa",[ "moveFile" , orignalfilename,filename],function (response) {
+           chrome.runtime.sendMessage("cmlahlbolmcipooecdjpcflcefmljopa",[ "moveFile" , orignalfilename,filename,downloadDelta.id],function (response) {
                 console.log(response);
             });
         } else if (downloadDelta && downloadDelta.filename) {

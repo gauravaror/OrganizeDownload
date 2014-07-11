@@ -14,6 +14,7 @@ var scanningdone = false;
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
 var audFormats = ['wav', 'mp3'];
 var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
+var downloadLocation = {};
 
 
 function scanDir(entries) {
@@ -34,25 +35,76 @@ function isSupportedFile(item) {
     else return false;
 
 }
+
+function scoreRule(rule,downloadobj) {
+    var score = 0;
+    for (key in rule) {
+        if (rule[key] != "" && downloadobj[key] && downloadobj[key] != "") {
+            if ((new RegExp(rule[key])).test(downloadobj[key])) {
+                score++;
+            }
+        }
+    }
+   return score; 
+}
+
+//Used to sort the array of scores.
+function compare(a,b) {
+    if (a[1] == b[1] ) {
+        return 0;
+    } else if (a[1] > b[1]) {
+        return  -1;
+    } else {
+        return 1;
+    }
+}
+
+function rulesApply(downloadObj,sendResponse) {
+    var returnvalue = false;
+    var rulescores = [];
+    chrome.storage.sync.get({
+        filters: []
+    },function(item) {
+        var currentfilters = item.filters;
+        for (var r=0;r<currentfilters.length;r++) {
+            rulescores.push([currentfilters[r],scoreRule(currentfilters[r],downloadObj)]);
+        }        
+        rulescores.sort(compare);
+        console.log(rulescores);
+        if (rulescores[0][1] > 0) {
+            returnvalue  = true;
+            downloadLocation[downloadObj["id"]] = rulescores[0][0]["targetdirectories"];
+            sendResponse("ok");
+        } else {
+        	chrome.app.window.create('selectName.html', 
+            		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
+	            	function(app_win) {
+    		        	app_win.contentWindow.send = sendResponse;
+    	        	}
+    	        );
+        	    console.log("app launched"+message);
+        
+        }
+    }); 
+}
+
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
 if (message[0] == "downloaddeterminingfilename") {
     console.log(message[1]);
     currentworkingfile = message[1];	
     if (isSupportedFile(message[1])) {
-	chrome.app.window.create('selectName.html', 
-    		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
-	    	function(app_win) {
-    			app_win.contentWindow.send = sendResponse;
-	    	}
-	    );
-	    console.log("app launched"+message);
+        rulesApply(message[1],sendResponse);
+        return true;
     } else {
-        sendResponse();
+        sendResponse("notok");
         console.log("extension not supported")
     }
 }
 else if (message[0] == "moveFile") {
-    console.log("location : " + message[1] + " moe "+message[2]);
+    console.log("location : " + message[1] + " moe "+message[2]+ " download id : "+message[3]);
+    if (message[3] != null) {
+        message[2] = downloadLocation[message[3]]+"/";
+    }
     var filename = message[1].split("/");
     var fn = filename[filename.length-1];
     filename.splice(filename.length-1,1);
