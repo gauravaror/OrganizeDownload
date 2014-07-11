@@ -106,7 +106,6 @@ chrome.mediaGalleries.getMediaFileSystems(function(filesystem) {
 }
 
 function scanfs(entries) {
-    console.log(entries);   
     if (entries.length == 0) {
         if (scan_directories.length >0) {
             var dir = scan_directories.shift();

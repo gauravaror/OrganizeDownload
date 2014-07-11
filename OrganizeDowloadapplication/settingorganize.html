@@ -1,48 +1,47 @@
 <html>
 <head>
 <title>Setup Organize download - Filters</title>
+<script src="settings.js"></script>
 <link rel="stylesheet" type="text/css" href="treestyle.css">
 </head>
 <body>
 <h1>Organize Download Settings</h1>
-<p> Add your Filters.</p>
+<p> Add your Filters:</p>
 <div id="filterbox">
 <div id="urldiv">
     <label id="url">URL:</label>
     &nbsp;
     &nbsp;
-    <input type="text" id="urlfield">
+    <input type="text" id="urlfield" length="60">
 </div>
 
 <div id="referrerdiv">
     <label id="referrer">Referrer:</label>
     &nbsp;
     &nbsp;
-    <input type="text" id="referrerfield">
+    <input type="text" id="referrerfield" length="60">
 </div>
 
 <div id="mimediv">
     <label id="mime">MIME Type:</label>
     &nbsp;
     &nbsp;
-    <input type="text" id="mimefield">
+    <input type="text" id="mimefield" length="60">
 </div>
 
 <div id="filenamediv">
     <label id="filename">FileName:</label>
     &nbsp;
     &nbsp;
-    <input type="text" id="filenamefield">
+    <input type="text" id="filenamefield" length="60">
 </div>
 
 <div id="targetdirectorydiv">
-    <label id="targetdir">Target Directory:</label>
+    <label id="targetdir">Available Target Directory:</label>
     &nbsp;
     &nbsp;
-    <input list="targetdirectories" id="targetdirlist">
-    <datalist id="targetdirectories">
-      <option value="/home/">
-    </datalist>
+    <select  id="targetdirlist">
+    </select>
 </div>
 
 <button id="addfilters">Add Filter!</button>
