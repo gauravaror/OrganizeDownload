@@ -10,6 +10,23 @@ h1 {
     font-weight: 200;
     color: white;
 }
+#info {
+    border: 1px solid #aaa;
+    background-color: #777;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    margin : 6;
+}
+#error {
+    border: 1px solid #aaa;
+    background-color: #777;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+}
 #addtext {
     border: 1px solid #aaa;
     background-color: #777;

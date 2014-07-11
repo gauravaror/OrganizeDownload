@@ -5,7 +5,7 @@
   "description": "App to show folders and select the main",
   "permissions": [{
       "mediaGalleries": ["read", "delete","copyTo","scan", "allAutoDetected"]
-  }],
+  },"storage"],
   "externally_connectable": {
 	"ids": ["*"],
 	 "accepts_tls_channel_id": false
