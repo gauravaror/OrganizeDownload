@@ -1,7 +1,7 @@
 
 @charset"utf-8";
 body {
-   background: #555;
+   background: #696969  ;
    color: #eee;
    font-family: "Open Sans", Arial, sans-serif;
 }
@@ -10,6 +10,37 @@ h1 {
     font-weight: 200;
     color: white;
 }
+
+#showrules {
+    border: 1px solid #aaa;
+    background-color: #708090;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    margin : 6;
+}
+
+.oddclassrule {
+    border: 1px solid #aaa;
+    background-color: #777;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    margin : 6;
+}
+
+.evenclassrule {
+    border: 1px solid #aaa;
+    background-color: #555;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    margin : 6;
+}
+
 #info {
     border: 1px solid #aaa;
     background-color: #777;

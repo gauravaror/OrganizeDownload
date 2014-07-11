@@ -50,14 +50,56 @@ function addfilters() {
                 setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000)
             });
           });
-
-
     }
+    showFilters();
+}
+
+function deleteRule(currentfilers,r) {
+    console.log("Delete rule called"+ r);
+}
+
+function showFilters() {
+    var showRules =  document.getElementById("showrules");
+    while(showRules.firstChild) {
+        showRules.removeChild(showRules.firstChild);
+    }
+    chrome.storage.sync.get({
+    filters: []
+    }, function(item) {
+        var currentfilters = item.filters;
+        showRules.textContent = "Total available filters: "+ currentfilters.length;
+        for (var r=0;r < currentfilters.length; r++ ) {
+            var upperdiv = document.createElement("div");
+            upperdiv.id = "rule"+r;
+            if (r%2 == 0) {
+                upperdiv.className = "evenclassrule";
+            } else {
+                upperdiv.className = "oddclassrule";
+            }
+            for (key in currentfilters[r]) {
+                if (currentfilters[r][key] != ""){
+                    var keydiv = document.createElement("div");
+                    var keylabel  = document.createElement("label");
+                    var textlabel = document.createTextNode(key+" : "+currentfilters[r][key]);
+                    keylabel.appendChild(textlabel);
+                    keydiv.appendChild(keylabel);
+                    upperdiv.appendChild(keydiv);
+                }
+            }
+            var button  = document.createElement("button");
+            button.innerText = "Delete";
+            button.addEventListener("click",function (val) { return function() { deleteRule(currentfilters,val) }}(r));
+            upperdiv.appendChild(button);
+            showRules.appendChild(upperdiv);        
+        }
+    
+    });    
 }
 function startup_init(){
     var butt = document.getElementById("addfilters");
     butt.addEventListener("click",addfilters);
     populate_targetdir();
+    showFilters();
 }
 
 document.addEventListener("DOMContentLoaded",startup_init);
