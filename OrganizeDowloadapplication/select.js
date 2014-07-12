@@ -12,6 +12,19 @@ var ylinear;
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
 var audFormats = ['wav', 'mp3'];
 var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
+ 
+function populate_targetdir (){
+    var select = document.getElementById("targetdirlist");
+    chrome.runtime.getBackgroundPage(function (bgp) {
+        var data = bgp.directory_data;
+        for ( keys in data) {
+            var el = document.createElement("option");
+            el.textContent = keys;
+            el.value = keys;
+            select.appendChild(el);
+        }
+    });
+}
 
 function getFileType(filename) {
    var ext = filename.substr(filename.lastIndexOf('.') + 1).toLowerCase();
@@ -210,9 +223,9 @@ function getGalleriesInfo  (results) {
 }
 
 function save_options(addfilter) {
-var location_ = document.getElementById('namefield').value.split("/");
-location_.splice(location_.length-1,1);
-var name = location_.join("/");
+
+var targetdirectorieselem = document.getElementById("targetdirlist");
+var name = targetdirectorieselem.options[targetdirectorieselem.selectedIndex].value
 chrome.runtime.getBackgroundPage( function(bgp) {
     var download_id = downloadObject.id;
     bgp.downloadLocation[download_id] = name;
@@ -230,7 +243,6 @@ chrome.runtime.getBackgroundPage( function(bgp) {
 }
 
 function restore_options() {
-document.getElementById('namefield').value = "./" ;
 document.getElementById('filename').textContent = "Please select the name and download location for your download: "+ downloadObject.filename;
 document.getElementById('save').addEventListener('click',function () {
     save_options(false) } );
@@ -239,6 +251,9 @@ document.getElementById('saveaddfilter').addEventListener('click',function() {
 document.getElementById('add-folder-button').addEventListener("click", function() {
       chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
 });
+
+//Populate the select element
+populate_targetdir();
 chrome.runtime.getBackgroundPage(function (bg) {
     scan_results = bg.scan_results;
     scan_gallData = bg.scan_gallData;
@@ -354,15 +369,17 @@ console.log(i);
 }
 
 function dblclick(d,i) {
-chrome.runtime.getBackgroundPage(function (bgp) {
-    var name = d.full_name.split("/");
-    name.splice(name.length-1,1);
-    var stringname = name.join("/");
-    var available = bgp.directory_data[stringname];
-    if (available) {
-        document.getElementById('namefield').value = d.full_name ;
+var targetdirectorieselem = document.getElementById("targetdirlist"); 
+var name = d.full_name.split("/");
+name.splice(name.length-1,1);
+var stringname = name.join("/");
+
+for (var i=0;i < targetdirectorieselem.options.length;i++){
+    if (targetdirectorieselem.options[i].value == stringname) {
+        targetdirectorieselem.selectedIndex = i; 
     }
-});
+}    
+
 }
 	
 /*
