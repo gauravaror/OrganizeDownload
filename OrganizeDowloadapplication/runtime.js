@@ -195,11 +195,22 @@ function scanfs(entries) {
 getDirectoryEntry();
 
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
-	console.log("fgf"+message.filename);
-	chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
-		console.log(response);
-	});
-	senderResonsefff("ok");
+    if (message.filename) {
+    	console.log("fgf"+message.filename);
+	    chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
+		    console.log(response);
+    	});
+	    senderResonsefff("ok");
+    } else if (message.settings) {
+        console.log(message.settings);
+        chrome.app.window.create('settingorganize.html', 
+		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"SettingFilter"+message.settings.id}, 
+                    function(app_win) {
+    		        	app_win.contentWindow.referenceFilterObject = message.settings;
+                     });
+        senderResonsefff("ok");
+        
+    }
 });
 
 

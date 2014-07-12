@@ -1,4 +1,38 @@
 
+function populate_usingReferenceFilters(){
+    //Getting the reference values from the reference object which came  from the packet.
+    var referenceurl = referenceFilterObject.url;
+    var referencereferrer  = referenceFilterObject.referrer;
+    var referencemime = referenceFilterObject.mime;
+    var referencetargetdirectories = referenceFilterObject.targetdirectories;
+
+    // Getting the objects on add filter page to populate values;
+    var url = document.getElementById("urlfield");
+    var referrer = document.getElementById("referrerfield");
+    var mime = document.getElementById("mimefield");
+    var targetdirectorieselem = document.getElementById("targetdirlist");
+    var a = document.createElement('a');
+    if (referenceurl != "") {
+        a.href = referenceurl;
+        url.value =  a.hostname
+    }
+    if (referencereferrer !=  "") {
+        a.href = referencereferrer;
+        referrer.value = a.hostname;
+    }
+    if (referencemime != "") {
+        mime.value = referencemime;
+    }
+    
+    if ( referencetargetdirectories != "") {
+        for (var i=0;i < targetdirectorieselem.options.length;i++){
+            if (targetdirectorieselem.options[i].value == referencetargetdirectories) {
+               targetdirectorieselem.selectedIndex = i; 
+            }
+        }    
+    }
+}
+
  function populate_targetdir (){
     var select = document.getElementById("targetdirlist");
     chrome.runtime.getBackgroundPage(function (bgp) {
@@ -8,6 +42,10 @@
             el.textContent = keys;
             el.value = keys;
             select.appendChild(el);
+        }
+        //We are populating other values here since all target directries population is complete here.
+        if (referenceFilterObject) {
+            populate_usingReferenceFilters();
         }
     });
 }

@@ -209,7 +209,7 @@ function getGalleriesInfo  (results) {
 	scanGalleries(scan_results[0]);
 }
 
-function save_options() {
+function save_options(addfilter) {
 var location_ = document.getElementById('namefield').value.split("/");
 location_.splice(location_.length-1,1);
 var name = location_.join("/");
@@ -217,7 +217,14 @@ chrome.runtime.getBackgroundPage( function(bgp) {
     var download_id = downloadObject.id;
     bgp.downloadLocation[download_id] = name;
     chrome.runtime.sendMessage({"filename": String(name)},function(response) {
-    window.close();
+    if (addfilter) {
+        downloadObject["targetdirectories"] = name;
+        chrome.runtime.sendMessage({"settings": downloadObject },function(response) {
+            window.close();
+        });
+    } else {
+        window.close();
+    }
     });
 });
 }
@@ -225,8 +232,10 @@ chrome.runtime.getBackgroundPage( function(bgp) {
 function restore_options() {
 document.getElementById('namefield').value = "./" ;
 document.getElementById('filename').textContent = "Please select the name and download location for your download: "+ downloadObject.filename;
-document.getElementById('save').addEventListener('click',
-    save_options);
+document.getElementById('save').addEventListener('click',function () {
+    save_options(false) } );
+document.getElementById('saveaddfilter').addEventListener('click',function() {
+    save_options(true) });
 document.getElementById('add-folder-button').addEventListener("click", function() {
       chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
 });
