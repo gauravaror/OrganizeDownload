@@ -77,12 +77,13 @@ function rulesApply(downloadObj,sendResponse) {
             sendResponse("ok");
         } else {
         	chrome.app.window.create('selectName.html', 
-            		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"}, 
+            		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"+downloadObj.id}, 
 	            	function(app_win) {
     		        	app_win.contentWindow.send = sendResponse;
+    		        	app_win.contentWindow.downloadObject = downloadObj;
     	        	}
     	        );
-        	    console.log("app launched"+message);
+        	    console.log("app launched"+downloadObj);
         
         }
     }); 
@@ -103,7 +104,7 @@ if (message[0] == "downloaddeterminingfilename") {
 else if (message[0] == "moveFile") {
     console.log("location : " + message[1] + " moe "+message[2]+ " download id : "+message[3]);
     if (message[3] != null) {
-        message[2] = downloadLocation[message[3]]+"/";
+        message[2] = downloadLocation[message[3]];
     }
     var filename = message[1].split("/");
     var fn = filename[filename.length-1];
@@ -114,7 +115,7 @@ else if (message[0] == "moveFile") {
     console.log(direntry1);
     if (message[2] !== null) {
         var filename2 = message[2].split("/");
-        filename2.splice(filename2.length-1,1);
+//        filename2.splice(filename2.length-1,1);
         var name2 = filename2.join("/");
         console.log(name2);
         var direntry2 = directory_data[name2];

@@ -210,14 +210,21 @@ function getGalleriesInfo  (results) {
 }
 
 function save_options() {
-chrome.runtime.sendMessage({"filename": String(document.getElementById('namefield').value)},function(response) {
-window.close();
+var location_ = document.getElementById('namefield').value.split("/");
+location_.splice(location_.length-1,1);
+var name = location_.join("/");
+chrome.runtime.getBackgroundPage( function(bgp) {
+    var download_id = downloadObject.id;
+    bgp.downloadLocation[download_id] = name;
+    chrome.runtime.sendMessage({"filename": String(name)},function(response) {
+    window.close();
+    });
 });
-
 }
 
 function restore_options() {
 document.getElementById('namefield').value = "./" ;
+document.getElementById('filename').textContent = "Please select the name and download location for your download: "+ downloadObject.filename;
 document.getElementById('save').addEventListener('click',
     save_options);
 document.getElementById('add-folder-button').addEventListener("click", function() {
