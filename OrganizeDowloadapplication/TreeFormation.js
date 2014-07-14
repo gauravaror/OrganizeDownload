@@ -393,9 +393,11 @@ function displayClusterDendogramLayout() {
     var w = document.getElementsByTagName("body")[0].clientWidth,
         h = document.getElementsByTagName("body")[0].clientHeight-100;
 
-    var vis = d3.select("body").append("svg:svg")
+    var vis = d3.select("body").append("svg")
                 .attr("width", w)
-                .attr("height", h);
+                .attr("height", h)
+                .append("g")
+                .attr("transform", "translate(40,0)");
 
     var force,links__,nodes__,node,link;
 
@@ -405,10 +407,6 @@ function displayClusterDendogramLayout() {
     var cluster = d3.layout.cluster()
                     .size([h, w - 160]);
     
-    vis.append("g")
-    .attr("transform", "translate(-40,0)")
-    .attr("x",15);
-
 
     nodes__ = cluster.nodes(dataclusterlinks),
     links__ = cluster.links(nodes__);
