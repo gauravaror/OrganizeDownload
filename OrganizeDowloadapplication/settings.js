@@ -149,6 +149,8 @@ function showFilters() {
 function startup_init(){
     var butt = document.getElementById("addfilters");
     butt.addEventListener("click",addfilters);
+    var buttclose = document.getElementById("closefilters");
+    buttclose.addEventListener("click",function() {  window.close();});
     populate_targetdir();
     showFilters();
 }

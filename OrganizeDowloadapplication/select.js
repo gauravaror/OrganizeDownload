@@ -8,6 +8,7 @@ var dire_entry;
 var directories;
 var xlinear;
 var ylinear;
+var defaultdrawtype = 2;
 
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
 var audFormats = ['wav', 'mp3'];
@@ -114,7 +115,7 @@ function scanGallery(entries){
                 });
                 chrome.runtime.getBackgroundPage(function(bgp) {
                     var filetype = getFileType(bgp.currentworkingfile.filename)
-    				displayGallaries(filetype,bgp.currentworkingfile.filename);
+    				displayGallaries(filetype,bgp.currentworkingfile.filename,defaultdrawtype);
                 });
 			}	
 		}
@@ -242,12 +243,25 @@ chrome.runtime.getBackgroundPage( function(bgp) {
 });
 }
 
+
+function changeLayout() {
+    if(defaultdrawtype == 1) {
+        defaultdrawtype = 2;
+        displayClusterDendogramLayout();
+    } else {
+        defaultdrawtype = 1;
+        displayForceLayout();
+    }
+    
+}
+
 function restore_options() {
 document.getElementById('filename').textContent = "Please select the name and download location for your download: "+ downloadObject.filename;
 document.getElementById('save').addEventListener('click',function () {
     save_options(false) } );
 document.getElementById('saveaddfilter').addEventListener('click',function() {
     save_options(true) });
+document.getElementById('change-layout').addEventListener('click',changeLayout);
 document.getElementById('add-folder-button').addEventListener("click", function() {
       chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
 });
@@ -268,7 +282,7 @@ chrome.runtime.getBackgroundPage(function (bg) {
 	    document.getElementById('add').remove();
         chrome.runtime.getBackgroundPage(function(bgp) {
             var filetype = getFileType(bgp.currentworkingfile.filename)
-    		displayGallaries(filetype,bgp.currentworkingfile.filename);
+    		displayGallaries(filetype,bgp.currentworkingfile.filename,defaultdrawtype);
         });
     }
 
