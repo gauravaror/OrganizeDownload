@@ -76,15 +76,17 @@ function rulesApply(downloadObj,sendResponse) {
             downloadLocation[downloadObj["id"]] = rulescores[0][0]["targetdirectories"];
             sendResponse("ok");
         } else {
-        	chrome.app.window.create('selectName.html', 
-            		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"+downloadObj.id}, 
-	            	function(app_win) {
-    		        	app_win.contentWindow.send = sendResponse;
-    		        	app_win.contentWindow.downloadObject = downloadObj;
-    	        	}
-    	        );
-        	    console.log("app launched"+downloadObj);
+            if (scanningdone) {
+            	chrome.app.window.create('selectName.html', 
+                		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"MGExp"+downloadObj.id}, 
+	                	function(app_win) {
+    		            	app_win.contentWindow.send = sendResponse;
+    		        	    app_win.contentWindow.downloadObject = downloadObj;
+        	        	}
+        	        );
+            	    console.log("app launched"+downloadObj);
         
+            }
         }
     }); 
 }
@@ -203,13 +205,15 @@ chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
 	    senderResonsefff("ok");
     } else if (message.settings) {
         console.log(message.settings);
-        chrome.app.window.create('settingorganize.html', 
-		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"SettingFilter"+message.settings.id}, 
-                    function(app_win) {
-    		        	app_win.contentWindow.referenceFilterObject = message.settings;
-                     });
-        senderResonsefff("ok");
+        if (scanningdone) {
+            chrome.app.window.create('settingorganize.html', 
+	    	{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 600, id:"SettingFilter"+message.settings.id}, 
+                        function(app_win) {
+    		            	app_win.contentWindow.referenceFilterObject = message.settings;
+                         });
+            senderResonsefff("ok");
         
+     }
     }
 });
 
@@ -233,10 +237,12 @@ chrome.mediaGalleries.onScanProgress.addListener(function (details) {
 scan_mediagallaries();
 
 chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create('settingorganize.html', {
-    'bounds': {
-      'width': 400,
-      'height': 500
+    if( scanningdone) {
+      chrome.app.window.create('settingorganize.html', {
+        'bounds': {
+          'width': 400,
+          'height': 500
+        }
+      });
     }
-  });
 });
