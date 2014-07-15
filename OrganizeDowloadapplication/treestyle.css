@@ -1,5 +1,13 @@
 
 @charset"utf-8";
+html {
+   border-width: 2px;
+   border-color: #7f7f7f;
+   border-style: dashed;
+   border-radius: 8px;
+
+}
+
 body {
    background: #696969  ;
    color: #eee;

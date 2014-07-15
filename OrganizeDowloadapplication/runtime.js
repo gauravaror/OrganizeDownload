@@ -78,7 +78,7 @@ function rulesApply(downloadObj,sendResponse) {
         } else {
             if (scanningdone) {
             	chrome.app.window.create('selectName.html', 
-                		{bounds: {width:900, height:700}, minWidth:900, maxWidth: 900, minHeight:600, maxHeight: 700, id:"MGExp"+downloadObj.id}, 
+                		{bounds: {width:1300, height:700}, minWidth:900, maxWidth: 1300, minHeight:600, maxHeight: 700, transparentBackground:true ,id:"MGExp"+downloadObj.id}, 
 	                	function(app_win) {
     		            	app_win.contentWindow.send = sendResponse;
     		        	    app_win.contentWindow.downloadObject = downloadObj;
