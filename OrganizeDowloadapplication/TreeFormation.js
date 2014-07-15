@@ -160,7 +160,7 @@ function displayGallaries(filetype,filename,drawtype) {
 function displayGalleriesAfterDirectories(dirranked,drawtype){
     mainillusionarynode = new Node("root", "start");
     mainillusionarynode.addChild(new Node("/", "/"));
-    directories  = dirranked.splice(0,5);
+    directories  = dirranked.splice(0,15);
     splitdirectories = [];
     for (var i = 0; i < directories.length; i++) {
         var dir = directories[i].split("/");
