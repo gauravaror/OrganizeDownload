@@ -223,10 +223,43 @@ function getGalleriesInfo  (results) {
 	scanGalleries(scan_results[0]);
 }
 
+function store_user_data_for_ranking(referenceFilterObject,dirname) {
+    var referenceurl = referenceFilterObject.url;
+    var referencereferrer  = referenceFilterObject.referrer;
+    var referencemime = referenceFilterObject.mime;
+    var referencetargetdirectories = dirname;
+    var url_,referrer_,mime_;
+    var a = document.createElement('a');
+    if (referenceurl != "") {
+        a.href = referenceurl;
+        url_ =  a.hostname
+    }
+    if (referencereferrer !=  "") {
+        a.href = referencereferrer;
+        referrer_ = a.hostname;
+    }
+   
+    var user_selection = {url:url_ , referrer :referrer_ ,  mime:referencemime , targetdirectories: referencetargetdirectories} ;
+    chrome.storage.sync.get({'old_user_selections' : {}},function(item) {
+            if (item.old_user_selections[dirname]) {
+                item.old_user_selections[dirname].push(user_selection);
+            }else {
+                item.old_user_selections[dirname] = [];
+                item.old_user_selections[dirname].push(user_selection);        
+            }
+        
+        chrome.storage.sync.set({ 'old_user_selections' : item.old_user_selections},function (item) {
+            console.log("saved the user preference");
+            console.log(item);
+        });
+    });
+}
+
 function save_options(addfilter) {
 
 var targetdirectorieselem = document.getElementById("targetdirlist");
-var name = targetdirectorieselem.options[targetdirectorieselem.selectedIndex].value
+var name = targetdirectorieselem.options[targetdirectorieselem.selectedIndex].value;
+store_user_data_for_ranking(downloadObject,name);
 chrome.runtime.getBackgroundPage( function(bgp) {
     var download_id = downloadObject.id;
     bgp.downloadLocation[download_id] = name;
