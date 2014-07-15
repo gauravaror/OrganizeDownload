@@ -11,19 +11,18 @@ html {
 body {
    background: #696969  ;
    color: #eee;
-   font-family: "Open Sans", Arial, sans-serif;
+   font-family: Arial, sans-serif;
 }
 
 h1 {
     font-weight: 200;
+    text-align: center;
     color: white;
 }
 
 
 .node circle {
   fill: #fff;
-  stroke: green;
-  stroke-width: 1.5px;
 }
 
 .node {
@@ -124,12 +123,16 @@ h1 {
 }
 .node.type1 {
     fill:white;
+    stroke: green;
+    stroke-width: 1.5px;
 }
 .node.type2 {
     fill:#BF0426;
 }
 .node.type3 {
-    fill:#E5B96F;
+    fill:#690011;
+    stroke:#1695A3;
+    stroke-width: 1px;
 }
 .node.type4 {
     fill:#FFFFFF;

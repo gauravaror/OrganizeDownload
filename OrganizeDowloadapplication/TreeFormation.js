@@ -21,7 +21,7 @@ function Node(value, fullValue) {
     currentcl = {};
     currentcl["name"] = value;
     currentcl["full_name"] = fullValue;
-    currentcl["type"] = 1;
+    currentcl["type"] = 3;
     currentcl["id"] = this.nodeid;
     currentcl["size"] = 1;
 
@@ -79,7 +79,7 @@ function Node(value, fullValue) {
         var currentclusterlink = {};
         currentclusterlink["name"] = node.value;
         currentclusterlink["full_name"] = node.fullValue;
-        currentclusterlink["type"] = 1;
+        currentclusterlink["type"] = 3;
         currentclusterlink["id"] = node.nodeid;
         currentclusterlink["size"] = 1;
         currentclusterlink["children"] = [];
@@ -286,8 +286,9 @@ function displayForceLayout() {
         .attr("dx", 0)
         .attr("dy", ".35em")
         .style("font-size", "15px")
+        .style("font-weight", "bold")
         .attr("text-anchor", "middle")
-        .style("fill", "red")
+        .style("fill", "blue")
         .text(function (d) {
             if (d.entity != "description") {
             return d.name
