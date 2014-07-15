@@ -240,8 +240,8 @@ chrome.app.runtime.onLaunched.addListener(function() {
     if( scanningdone) {
       chrome.app.window.create('settingorganize.html', {
         'bounds': {
-          'width': 400,
-          'height': 500
+          'width': 900,
+          'height': 700
         }
       });
     }
