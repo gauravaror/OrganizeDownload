@@ -3,11 +3,13 @@
 <title>Setup Organize download - Filters</title>
 <script src="settings.js"></script>
 <link rel="stylesheet" type="text/css" href="treestyle.css">
+<script src="js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>Organize Download Settings</h1>
-<div id="info"> Add your Filters: </div>
+<h2>Organize Download Settings</h2>
 <div id="filterbox">
+<div id="info"> Add your Filters: </div>
 <div id="urldiv">
     <label id="url">URL:</label>
     &nbsp;
@@ -44,8 +46,8 @@
     </select>
 </div>
 
-<button id="addfilters">Add Filter!</button>
-<button id="closefilters">Close</button>
+<button id="addfilters" class="btn btn-default" type="button">Add Filter!</button>
+<button id="closefilters" class="btn btn-default" type="button">Close</button>
 </div>
 <div id="showrules"></div>
 </body>

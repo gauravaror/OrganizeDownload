@@ -1,6 +1,8 @@
 
 @charset"utf-8";
 html {
+   background: #696969  ;
+   background-color: #696969  ;
    border-width: 2px;
    border-color: #7f7f7f;
    border-style: dashed;
@@ -8,9 +10,13 @@ html {
 
 }
 
+select {
+    border: 1px solid #7f7f7f;
+    margin: 6;
+}
 body {
-   background: #696969  ;
-   color: #eee;
+   background: #696969  !important;
+   background-color: #696969  ;
    font-family: Arial, sans-serif;
 }
 
@@ -18,6 +24,12 @@ h1 {
     font-weight: 200;
     text-align: center;
     color: white;
+}
+
+h2 {
+    font-weight: 200;
+    text-align: center;
+    color: white !important;
 }
 
 
@@ -36,13 +48,32 @@ h1 {
 }
 
 #filename {
-    font-weight: 60;
+    font-weight: 5;
     margin : 6;
-    font-Size : large;
-    
+}
+
+#targetdirectorydiv {
+    font-weight: 5;
+    margin : 6;
+}
+
+#url {
+    font-weight: 5;
+    margin : 6;
+}
+
+#mime {
+    font-weight: 5;
+    margin : 6;
+}
+
+#referrer {
+    font-weight: 7;
+    margin : 6;
 }
 
 #showrules {
+    font-weight: 30;
     border: 1px solid #aaa;
     background-color: #708090;
     width: auto;
@@ -62,6 +93,9 @@ h1 {
     margin : 6;
 }
 
+#button-menu {
+text-align: center;
+}
 .evenclassrule {
     border: 1px solid #aaa;
     background-color: #555;
@@ -73,13 +107,12 @@ h1 {
 }
 
 #info {
-    border: 1px solid #aaa;
-    background-color: #777;
     width: auto;
-    border-radius: 5px;
     overflow: hidden;
     padding: 5px;
     margin : 6;
+    font-weight: 10;
+    font-Size : medium;
 }
 #error {
     border: 1px solid #aaa;
@@ -98,6 +131,7 @@ h1 {
     padding: 5px;
     margin:6
 }
+
 #filterbox {
     border: 1px solid #aaa;
     background-color: #777;

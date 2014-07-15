@@ -1,5 +1,7 @@
 <html>
 <head>
+<script src="js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <title>Select Name and location for your download</title>
 <script src="select.js"></script>
 <script src="rankDirectories.js"></script>
@@ -12,12 +14,13 @@
 <div id="filename"></div>
 <select  id="targetdirlist">
 </select>
-<button id="save">Save</button>
-<button id="saveaddfilter">Save and Add Filter!</button>
-<button id="add">Add</button>
-<button id="add-folder-button">Add Galleries</button>
-<button id="change-layout">Change Layout</button>
-</br>
+<div id="button-menu">
+<button id="save" class="btn btn-default btn-sm" type="button">Save</button>
+<button id="saveaddfilter" class="btn btn-default btn-sm" type="button">Save and Add Filter!</button>
+<button id="add" class="btn btn-default btn-sm" type="button">Add</button>
+<button id="add-folder-button"  class="btn btn-default btn-sm" type="button">Add Galleries</button>
+<button id="change-layout" class="btn btn-default btn-sm" type="button">Change Layout</button>
+</div>
 <div id="addtext"></div>
 </body>
 </html>
