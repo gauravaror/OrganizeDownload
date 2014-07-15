@@ -457,7 +457,7 @@ function displayClusterDendogramLayout() {
         .style("font-size", "12px")
         .style("font-weight", "bold")
         .style("text-anchor", function(d) { return d.children.length>0 ? "end" : "start"; })
-        .style("fill", "red")
+        .style("fill", "blue")
         .text(function (d) {
             return d.name
     });
@@ -481,7 +481,9 @@ node.on("mouseover", function (d) {
         d3.select(this).select('circle')
             .transition()
             .duration(300)
-            .attr("class","circle")
+            .attr("class", function (d) {
+                return "node type" + 2;
+            })
             .attr("r", function (d) { return 25;});
 
 
@@ -489,7 +491,9 @@ node.on("mouseover", function (d) {
         while(current_node && current_node.getParentNode()) {
             var parent_= current_node.getParentNode();
             d3.select("#circle"+parent_.nodeid)
-            .attr("class","circle")
+            .attr("class", function (d) {
+                return "node type" + 2;
+            })
             .attr("r", function (d) { return 25;});
 
 
@@ -535,7 +539,7 @@ node.on("mouseout", function (d) {
             .attr("r", 7);
             d3.select("#text"+parent_.nodeid)
             .style("text-anchor",function(d) { return d.children.length>0 ? "end" : "start"; })
-            .style("font-size", "10px");
+            .style("font-size", "12px");
             current_node = parent_;
         }
 

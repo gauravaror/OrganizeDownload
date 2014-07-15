@@ -22,7 +22,7 @@ h1 {
 
 .node circle {
   fill: #fff;
-  stroke: steelblue;
+  stroke: green;
   stroke-width: 1.5px;
 }
 
@@ -123,7 +123,7 @@ h1 {
     pointer-events: none;
 }
 .node.type1 {
-    fill:#690011;
+    fill:white;
 }
 .node.type2 {
     fill:#BF0426;
