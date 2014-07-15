@@ -52,11 +52,11 @@ function compare(a,b) {
     }
 }
 
-function getOldPrefScore(old_item) {
+function getOldPrefScore(dirwithfilelist,filename,old_item) {
     if (old_item) {
-       return old_item.length;
+       return getScore(dirwithfilelist,filename)/old_item.length;
     } else {
-        return 0;
+        return getScore(dirwithfilelist,filename)*2;
     }
 
 }
@@ -67,7 +67,7 @@ function getRankedDirList(dirwithfilelist,filename,drawtype,callback) {
         var sortablescorearray=[];
         for ( key in dirwithfilelist) {
              var old_pref_item = item.old_user_selections[key];
-             sortablescorearray.push([key,getScore(dirwithfilelist[key],filename)+getOldPrefScore(old_pref_item),dirwithfilelist[key]]);
+             sortablescorearray.push([key,getOldPrefScore(dirwithfilelist[key],filename,old_pref_item),dirwithfilelist[key]]);
         }
         sortablescorearray.sort(compare);
         console.log(sortablescorearray);
