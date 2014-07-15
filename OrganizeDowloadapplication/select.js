@@ -218,7 +218,10 @@ function getGalleriesInfo  (results) {
         scan_resultsindex = 0;
 
    	}
-	document.getElementById('add').remove();
+	var add = document.getElementById('add')
+    if (add) {
+        add.remove();
+    }
 
 	scanGalleries(scan_results[0]);
 }
