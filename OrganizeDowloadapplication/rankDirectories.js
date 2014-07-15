@@ -52,11 +52,27 @@ function compare(a,b) {
     }
 }
 
-function getOldPrefScore(dirwithfilelist,filename,old_item) {
+function calculateOldScore(old_item) {
+    var s = 0;
     if (old_item) {
-       return getScore(dirwithfilelist,filename)/old_item.length;
+        for (var l =0; l < old_item.length; l++) {
+            for ( key in old_item[l]) {
+                if(old_item[l][key] && old_item[l][key] != "" && downloadObject[key] && downloadObject[key] != "") {
+                    if( (new RegExp(old_item[l][key])).test(downloadObject[key])) {
+                        s++;       
+                    }        
+                }
+            }
+        }
+    }
+    return s;
+}
+function getOldPrefScore(dirwithfilelist_,filename,old_item) {
+    var oldscore = calculateOldScore(old_item);
+    if (oldscore > 0 ) {
+       return getScore(dirwithfilelist_,filename)/oldscore;
     } else {
-        return getScore(dirwithfilelist,filename)*2;
+        return getScore(dirwithfilelist_,filename)*2;
     }
 
 }
