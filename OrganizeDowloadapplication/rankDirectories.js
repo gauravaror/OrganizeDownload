@@ -51,18 +51,32 @@ function compare(a,b) {
         return -1;
     }
 }
-function getRankedDirList(dirwithfilelist,filename) {
-    var sortablescorearray=[];
-    for ( key in dirwithfilelist) {
-         sortablescorearray.push([key,getScore(dirwithfilelist[key],filename),dirwithfilelist[key]]);
+
+function getOldPrefScore(old_item) {
+    if (old_item) {
+       return old_item.length;
+    } else {
+        return 0;
     }
-    sortablescorearray.sort(compare);
-    console.log(sortablescorearray);
-    var rlist=[];
-    for (var l=0;l<sortablescorearray.length;l++) {
-        rlist.push(sortablescorearray[l][0]);
-    }
-    return rlist; 
+
+}
+
+
+function getRankedDirList(dirwithfilelist,filename,drawtype,callback) {
+    chrome.storage.sync.get({'old_user_selections' : {}},function(item) {
+        var sortablescorearray=[];
+        for ( key in dirwithfilelist) {
+             var old_pref_item = item.old_user_selections[key];
+             sortablescorearray.push([key,getScore(dirwithfilelist[key],filename)+getOldPrefScore(old_pref_item),dirwithfilelist[key]]);
+        }
+        sortablescorearray.sort(compare);
+        console.log(sortablescorearray);
+        var rlist=[];
+        for (var l=0;l<sortablescorearray.length;l++) {
+            rlist.push(sortablescorearray[l][0]);
+        }
+         callback(rlist,drawtype);
+    }); 
 }
 
 

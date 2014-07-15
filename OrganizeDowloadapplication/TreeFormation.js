@@ -152,14 +152,16 @@ function Node(value, fullValue) {
 
 
 function displayGallaries(filetype,filename,drawtype) {
+    var dirwithfiles = getDirectoryData(filetype);
+    getRankedDirList(dirwithfiles,filename,drawtype,displayGalleriesAfterDirectories);
+}
 
+
+function displayGalleriesAfterDirectories(dirranked,drawtype){
     mainillusionarynode = new Node("root", "start");
     mainillusionarynode.addChild(new Node("/", "/"));
-    splitdirectories = [];
-
-    var dirwithfiles = getDirectoryData(filetype);
-    var dirranked = getRankedDirList(dirwithfiles,filename);
     directories  = dirranked.splice(0,5);
+    splitdirectories = [];
     for (var i = 0; i < directories.length; i++) {
         var dir = directories[i].split("/");
         splitdirectories[i] = dir.splice(1, dir.length);
@@ -387,12 +389,19 @@ function displayForceLayout() {
     });
 }
 
+
+function separation(a, b) {
+    console.log(a);
+    console.log(b);
+  return (a.parent == b.parent ? 1 : 2) ;
+}
+
 //Cluster Dendogram Layout
 function displayClusterDendogramLayout() {
     d3.select("svg").remove();
     var w = document.getElementsByTagName("body")[0].clientWidth,
         h = document.getElementsByTagName("body")[0].clientHeight-100;
-
+    console.log(" w "+w+"h "+h+" window "+window.innerWidth+" height "+innerHeight);
     var vis = d3.select("body").append("svg")
                 .attr("width", w)
                 .attr("height", h)
@@ -405,7 +414,8 @@ function displayClusterDendogramLayout() {
                     .projection(function(d) { return [d.y, d.x]; });
 
     var cluster = d3.layout.cluster()
-                    .size([h, w - 160]);
+                    .size([h, w - 160])
+                    .separation(separation);
     
 
     nodes__ = cluster.nodes(dataclusterlinks),
@@ -421,7 +431,11 @@ function displayClusterDendogramLayout() {
       .data(nodes__)
     .enter().append("g")
       .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+      .attr("transform", function(d) { 
+                var name = d.name.split("");
+                
+            return "translate(" + d.y + "," + d.x + ")"; 
+        })
         .on("click",dblclick);
 
 
@@ -435,7 +449,10 @@ function displayClusterDendogramLayout() {
 
     var text = node.append("text")
         .attr("dx", function(d) { return d.children.length>0 ? -8 : 8; })
-        .attr("dy", 3)
+        .attr("dy", function(d,i) {
+                        var n = d.name.split(""); 
+                        return n.length > 7 ?  i%2 == 0 ? 9 : -9 :  3;
+                    } )
         .attr("id", function(d) { return "text"+d.id})
         .style("font-size", "12px")
         .style("font-weight", "bold")
