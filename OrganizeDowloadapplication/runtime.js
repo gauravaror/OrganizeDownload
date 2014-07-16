@@ -71,7 +71,7 @@ function rulesApply(downloadObj,sendResponse) {
         }        
         rulescores.sort(compare);
         console.log(rulescores);
-        if (rulescores[0][1] > 0) {
+        if (rulescores && rulescores[0] && rulescores[0][1] && rulescores[0][1] > 0) {
             returnvalue  = true;
             downloadLocation[downloadObj["id"]] = rulescores[0][0]["targetdirectories"];
             sendResponse("ok");
@@ -199,7 +199,7 @@ getDirectoryEntry();
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
     if (message.filename) {
     	console.log("fgf"+message.filename);
-	    chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
+	    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"filename" : String(message.filename) },function(response) { 
 		    console.log(response);
     	});
 	    senderResonsefff("ok");
