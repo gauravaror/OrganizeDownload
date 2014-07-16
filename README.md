@@ -131,5 +131,5 @@ In all the filed except target directories, you should put a string which you th
 
 ## Contact
 
-Have any question? drop a email at gauravarora<dot>daiict<at>gmail.com
+Have any question? drop a email at gauravarora dot daiict at gmail.com
 
