@@ -219,6 +219,11 @@ function getGalleriesInfo  (results) {
 
    	}
 	var add = document.getElementById('add')
+    chrome.runtime.getBackgroundPage(function(bgp) {
+        bgp.getDirectoryEntry();
+        setInterval(populate_targetdir,10000);
+    });
+    
     if (add) {
         add.remove();
     }
@@ -419,17 +424,21 @@ console.log(i);
 }
 
 function dblclick(d,i) {
-var targetdirectorieselem = document.getElementById("targetdirlist"); 
-var name = d.full_name.split("/");
-name.splice(name.length-1,1);
-var stringname = name.join("/");
+    var targetdirectorieselem = document.getElementById("targetdirlist"); 
+    var name = d.full_name.split("/");
+    name.splice(name.length-1,1);
+    var stringname = name.join("/");
+    var gotvalue = false;
+    for (var i=0;i < targetdirectorieselem.options.length;i++){
+        if (targetdirectorieselem.options[i].value == stringname) {
+            targetdirectorieselem.selectedIndex = i; 
+            gotvalue = true;
+        }
+    }    
 
-for (var i=0;i < targetdirectorieselem.options.length;i++){
-    if (targetdirectorieselem.options[i].value == stringname) {
-        targetdirectorieselem.selectedIndex = i; 
+    if(!gotvalue ) {
+        populate_targetdir();
     }
-}    
-
 }
 	
 /*
