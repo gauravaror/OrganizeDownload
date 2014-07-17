@@ -158,7 +158,7 @@ function createNotification(title_,body_) {
         type: "basic",
         title: title_,
         message: body_,
-        iconUrl: 'icons/download_square.jpg'
+        iconUrl: 'icons/download_square128.png'
     };
 
     function notification_callback(notificationid) {

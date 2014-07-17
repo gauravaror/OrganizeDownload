@@ -1,13 +1,18 @@
 {
   "name": "OrganizeDowload",
   "description": "Lets you choose where to put the file with suggestions",
-  "version": "1",
+  "version": "1.1",
   "manifest_version": 2,
   "minimum_chrome_version": "26.0.1428",
   "background": {
     "scripts": ["bg.js"],
     "persistent": false
   },
+  "icons": {
+    "16": "icons/download_square16.png",
+    "48": "icons/download_square48.png",
+    "128": "icons/download_square128.png" 
+    },
   "permissions": [
     "downloads"
   ],

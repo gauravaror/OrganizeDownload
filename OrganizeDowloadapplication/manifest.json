@@ -1,6 +1,6 @@
 {
   "name": "Organize Download app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "manifest_version": 2,
   "description": "App to show folders and select the main",
   "permissions": [{
@@ -10,6 +10,13 @@
 	"ids": ["*"],
 	 "accepts_tls_channel_id": false
   },
+
+  "icons": {
+    "16": "icons/download_square16.png",
+    "48": "icons/download_square48.png",
+    "128": "icons/download_square128.png" 
+    },
+
   "app": {
      "background": {
        "scripts": ["runtime.js"]
