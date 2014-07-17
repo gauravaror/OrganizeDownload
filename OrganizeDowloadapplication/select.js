@@ -13,16 +13,27 @@ var defaultdrawtype = 2;
 var imgFormats = ['png', 'bmp', 'jpeg', 'jpg', 'gif', 'png', 'svg', 'xbm', 'webp'];
 var audFormats = ['wav', 'mp3'];
 var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
+
+function check_option_available(targetdirectorieselem, stringname) {
+    for (var i=0;i < targetdirectorieselem.options.length;i++){
+        if (targetdirectorieselem.options[i].value == stringname) {
+            return  true;
+        }
+    } 
+    return false;
+}
  
 function populate_targetdir (){
     var select = document.getElementById("targetdirlist");
     chrome.runtime.getBackgroundPage(function (bgp) {
         var data = bgp.directory_data;
         for ( keys in data) {
-            var el = document.createElement("option");
-            el.textContent = keys;
-            el.value = keys;
-            select.appendChild(el);
+            if(!check_option_available(select,keys)) {
+                var el = document.createElement("option");
+                el.textContent = keys;
+                el.value = keys;
+                select.appendChild(el);
+            }
         }
     });
 }
