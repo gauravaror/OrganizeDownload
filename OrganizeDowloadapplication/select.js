@@ -232,7 +232,7 @@ function getGalleriesInfo  (results) {
 	var add = document.getElementById('add')
     chrome.runtime.getBackgroundPage(function(bgp) {
         bgp.getDirectoryEntry();
-        setInterval(populate_targetdir,10000);
+        setInterval(populate_targetdir,1000);
     });
     
     if (add) {
