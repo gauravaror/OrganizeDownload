@@ -129,8 +129,7 @@ else if (message[0] == "moveFile") {
                 if (entries[o].name == fn) {
                         var ferror = function() {console.log("error "+ fn)};
                         var fsuccess = function() {console.log("success "+ fn)};
-                        entries[o].copyTo(direntry2,fn,fsuccess,ferror);
-                        setTimeout(function (val) { return function() { entries[val].remove(fsuccess,ferror) } }(o),10000);
+                        entries[o].copyTo(direntry2,fn,function (val) { return function() { val.remove(fsuccess,ferror);console.log("success"+val.name) } }(entries[o]),ferror);
                     }
                 }
                 });
