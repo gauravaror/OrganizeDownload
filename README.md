@@ -48,7 +48,7 @@ Organize download application doesn't work alone. It's a combination of Chomium 
 
 For the whole flow to work, you need to have both of them. extension is just a filler to get information of downloads, All hardwork is done by the organize download application.
 
-<a target="_blank" href="https://chrome.google.com/webstore/detail/organizedowload/pmbapjgcgcnocmllkbcehgljickgjiif"> Extensio ![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install the Organize Download extension")</a>
+<a target="_blank" href="https://chrome.google.com/webstore/detail/organizedowload/pmbapjgcgcnocmllkbcehgljickgjiif"> Extension: ![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install the Organize Download extension")</a>
 
 <a target="_blank" href="https://chrome.google.com/webstore/detail/organize-download-app/ibnikgmjkdnijcigicjpnipibcieobdh"> APP:   ![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install the Organize Dowload App")</a>
 
