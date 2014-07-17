@@ -40,8 +40,8 @@ function scoreRule(rule,downloadobj) {
     var score = 0;
     var items = 0;
     for (key in rule) {
-        items++;
         if (rule[key] != "" && downloadobj[key] && downloadobj[key] != "") {
+            items++;
             if ((new RegExp(rule[key])).test(downloadobj[key])) {
                 score++;
             }
