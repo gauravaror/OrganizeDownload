@@ -158,26 +158,33 @@ function displayGallaries(filetype,filename,drawtype) {
 
 
 function displayGalleriesAfterDirectories(dirranked,drawtype){
-    mainillusionarynode = new Node("root", "start");
-    mainillusionarynode.addChild(new Node("/", "/"));
+//    mainillusionarynode.addChild(new Node("/", "/"));
     directories  = dirranked.splice(0,15);
     splitdirectories = [];
+    var sepratordetected = false;
+    var OSName="Unknown OS";
+    if (navigator.appVersion.indexOf("Win")!=-1) globalseprator="\\";
+    if (navigator.appVersion.indexOf("Mac")!=-1) globalseprator="/";
+    if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
+    if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
+    
     for (var i = 0; i < directories.length; i++) {
-        var dir = directories[i].split("/");
+        var dir = directories[i].split(globalseprator);
         splitdirectories[i] = dir.splice(1, dir.length);
     }
     var conti = true;
     var index = 0;
+    mainillusionarynode = new Node("root", globalseprator);
 
     while (conti) {
         conti = false;
         for (var c = 0; c < splitdirectories.length; c++) {
             if (index < splitdirectories[c].length) {
-                var parentpath = "/";
+                var parentpath = globalseprator;
                 for (var p = 0; p < index; p++) {
-                    parentpath = parentpath + splitdirectories[c][p] + "/";
+                    parentpath = parentpath + splitdirectories[c][p] + globalseprator;
                 }
-                var currentpath = parentpath + splitdirectories[c][index] + "/";
+                var currentpath = parentpath + splitdirectories[c][index] + globalseprator;
                 var node = mainillusionarynode.searchChildren(mainillusionarynode, currentpath);
                 if (node === undefined) {
                     var parentnode = mainillusionarynode.searchChildren(mainillusionarynode, parentpath);
