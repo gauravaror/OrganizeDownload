@@ -127,9 +127,10 @@ else if (message[0] == "moveFile") {
         reader.readEntries(function(entries){ 
             for (var o=0;o<entries.length;o++) {
                 if (entries[o].name == fn) {
-                    var ferror = function() {console.log("error "+ fn)};
-                    var fsuccess = function() {console.log("success "+ fn)};
-                    entries[o].copyTo(direntry2,fn,fsuccess,ferror);
+                        var ferror = function() {console.log("error "+ fn)};
+                        var fsuccess = function() {console.log("success "+ fn)};
+                        entries[o].copyTo(direntry2,fn,fsuccess,ferror);
+                        setTimeout(function (val) { return function() { entries[val].remove(fsuccess,ferror) } }(o),10000);
                     }
                 }
                 });
