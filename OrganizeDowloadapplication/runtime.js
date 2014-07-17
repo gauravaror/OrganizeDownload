@@ -165,7 +165,7 @@ function createNotification(title_,body_) {
         console.log("notification shown");
     };
 
-    var notification = chrome.notifications.create('itemMoved',opt,notification_callback);
+    var notification = chrome.notifications.create('',opt,notification_callback);
 }
 
 
