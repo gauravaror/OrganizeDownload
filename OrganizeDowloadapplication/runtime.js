@@ -134,7 +134,10 @@ else if (message[0] == "moveFile") {
             for (var o=0;o<entries.length;o++) {
                 if (entries[o].name == fn) {
                         var ferror = function() {console.log("error "+ fn)};
-                        var fsuccess = function() {console.log("success "+ fn)};
+                        var fsuccess = function() {
+                                    console.log("success "+ fn);
+                                    createNotification("Moved file","Your file: "+fn+" has been moved to: "+name2);
+                                    };
                         entries[o].copyTo(direntry2,fn,function (val) { return function() { val.remove(fsuccess,ferror);console.log("success"+val.name) } }(entries[o]),ferror);
                     }
                 }
@@ -150,6 +153,20 @@ else if (message[0] == "moveFile") {
     }
 });
 
+function createNotification(title_,body_) {
+    var opt = {
+        type: "basic",
+        title: title_,
+        message: body_,
+        iconUrl: 'icons/download_square.jpg'
+    };
+
+    function notification_callback(notificationid) {
+        console.log("notification shown");
+    };
+
+    var notification = chrome.notifications.create('itemMoved',opt,notification_callback);
+}
 
 
 
