@@ -205,8 +205,12 @@ function displayGalleriesAfterDirectories(dirranked,drawtype){
     mainillusionarynode.reduceTree(mainillusionarynode);
     for (var n =0;n<data["nodes"].length;n++) {
         var cnode = mainillusionarynode.searchChildren(mainillusionarynode,data["nodes"][n].full_name);
-        cnode.nodeid = n;
-        data["nodes"][n].id =  n;
+        if(data["nodes"][n].full_name){
+            cnode.nodeid = n;
+            data["nodes"][n].id =  n;
+        } else {
+            console.log("node id undefined: " + data["nodes"][n].full_name);
+        }
     }
     var clusterchild = mainillusionarynode.printTree(mainillusionarynode);
     dataclusterlinks= clusterchild;
