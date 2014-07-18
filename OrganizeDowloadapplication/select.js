@@ -229,15 +229,15 @@ function getGalleriesInfo  (results) {
         scan_resultsindex = 0;
 
    	}
-	var add = document.getElementById('add')
+//	var add = document.getElementById('add')
     chrome.runtime.getBackgroundPage(function(bgp) {
         bgp.getDirectoryEntry();
         setTimeout(populate_targetdir,1000);
     });
     
-    if (add) {
-        add.remove();
-    }
+  //  if (add) {
+    //    add.remove();
+   // }
 
 	scanGalleries(scan_results[0]);
 }
@@ -307,6 +307,15 @@ function changeLayout() {
     
 }
 
+function changeSelectOption() {
+    var targetdirectorieselem = document.getElementById("targetdirlist");
+    var name = targetdirectorieselem.options[targetdirectorieselem.selectedIndex].value;
+    var dirs = name.split("/");
+    var shortname_dir = dirs[dirs.length-1];
+    document.getElementById("save").innerText = "Store at "+shortname_dir;    
+    
+}
+
 function restore_options() {
 document.getElementById('filename').textContent = "Please select the name and download location for your download: "+ downloadObject.filename;
 document.getElementById('save').addEventListener('click',function () {
@@ -317,6 +326,7 @@ document.getElementById('change-layout').addEventListener('click',changeLayout);
 document.getElementById('add-folder-button').addEventListener("click", function() {
       chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
 });
+document.getElementById('targetdirlist').addEventListener('change',changeSelectOption);
 
 //Populate the select element
 populate_targetdir();
@@ -331,7 +341,7 @@ chrome.runtime.getBackgroundPage(function (bg) {
     //	document.getElementById("add").click();
     //	add_scan_results();
     } else {
-	    document.getElementById('add').remove();
+	    //document.getElementById('add').remove();
         chrome.runtime.getBackgroundPage(function(bgp) {
             var filetype = getFileType(bgp.currentworkingfile.filename)
     		displayGallaries(filetype,bgp.currentworkingfile.filename,defaultdrawtype);
@@ -446,7 +456,7 @@ function dblclick(d,i) {
             gotvalue = true;
         }
     }    
-
+    changeSelectOption();
     if(!gotvalue ) {
         populate_targetdir();
     }
