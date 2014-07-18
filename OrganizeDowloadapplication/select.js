@@ -231,6 +231,7 @@ function getGalleriesInfo  (results) {
    	}
 //	var add = document.getElementById('add')
     chrome.runtime.getBackgroundPage(function(bgp) {
+        bgp.index=0;
         bgp.getDirectoryEntry();
         setTimeout(populate_targetdir,1000);
     });
