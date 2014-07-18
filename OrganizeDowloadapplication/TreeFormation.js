@@ -2,6 +2,12 @@
 var currentnodenumber = 0;
 var mainillusionarynode = null;
 var maxlength = 20;
+var globalseprator="/";
+var OSName="Unknown OS";
+if (navigator.appVersion.indexOf("Win")!=-1) globalseprator="\\";
+if (navigator.appVersion.indexOf("Mac")!=-1) globalseprator="/";
+if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
+if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
 
 
 var data = {};
@@ -125,7 +131,7 @@ function Node(value, fullValue) {
                 if (childofsuperparent[i].fullValue == parent_.fullValue){  
                     childofsuperparent[i] = node;
                     node.setParentNode(node.getParentNode().getParentNode());
-                    node.value = parent_.value+"/"+node.value;
+                    node.value = parent_.value+globalseprator+node.value;
                     node.reduced = true;
                     var nodes = data["nodes"];
                     for (var j =0;j<nodes.length;j++) {
@@ -164,11 +170,6 @@ function displayGalleriesAfterDirectories(dirranked,drawtype){
     data["nodes"] = [];
     data["links"] = [];
     var sepratordetected = false;
-    var OSName="Unknown OS";
-    if (navigator.appVersion.indexOf("Win")!=-1) globalseprator="\\";
-    if (navigator.appVersion.indexOf("Mac")!=-1) globalseprator="/";
-    if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
-    if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
     
     for (var i = 0; i < directories.length; i++) {
         var dir = directories[i].split(globalseprator);
@@ -487,7 +488,6 @@ node.on("mouseover", function (d) {
             .duration(300)
             .style("text-anchor", "middle")
             .text(function (d) {
-            var name = d.full_name.split("/");
             return d.name;
         })
             .style("font-size", "15px")
