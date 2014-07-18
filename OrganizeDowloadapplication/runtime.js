@@ -16,6 +16,13 @@ var audFormats = ['wav', 'mp3'];
 var vidFormats = ['3gp', '3gpp', 'avi', 'flv', 'mov', 'mpeg', 'mpeg4', 'mp4', 'ogg', 'webm', 'wmv'];
 var downloadLocation = {};
 
+var globalseprator="/";
+var OSName="Unknown OS";
+if (navigator.appVersion.indexOf("Win")!=-1) globalseprator="\\";
+if (navigator.appVersion.indexOf("Mac")!=-1) globalseprator="/";
+if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
+if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
+
 
 function scanDir(entries) {
     for (var i =0 ;i< entries.length;i++) {
@@ -114,17 +121,17 @@ else if (message[0] == "moveFile") {
     if (message[3] != null) {
         message[2] = downloadLocation[message[3]];
     }
-    var filename = message[1].split("/");
+    var filename = message[1].split(globalseprator);
     var fn = filename[filename.length-1];
     filename.splice(filename.length-1,1);
-    var name = filename.join("/");
+    var name = filename.join(globalseprator);
     console.log(name);
     var direntry1 = directory_data[name];
     console.log(direntry1);
     if (message[2] !== null) {
-        var filename2 = message[2].split("/");
+        var filename2 = message[2].split(globalseprator);
 //        filename2.splice(filename2.length-1,1);
-        var name2 = filename2.join("/");
+        var name2 = filename2.join(globalseprator);
         console.log(name2);
         var direntry2 = directory_data[name2];
         console.log(direntry2);
@@ -133,7 +140,11 @@ else if (message[0] == "moveFile") {
         reader.readEntries(function(entries){ 
             for (var o=0;o<entries.length;o++) {
                 if (entries[o].name == fn) {
-                        var ferror = function() {console.log("error "+ fn)};
+                        var ferror = function() {
+                                console.log("error "+ fn);
+                                createNotification("File Cannot be Moved","Your file: "+fn+" cannot be been moved to: "+name2+" Seems like permission issue");
+                            
+                        };
                         var fsuccess = function() {
                                     console.log("success "+ fn);
                                     createNotification("Moved file","Your file: "+fn+" has been moved to: "+name2);
@@ -144,12 +155,23 @@ else if (message[0] == "moveFile") {
                 });
             sendResponse("ok");
         } else {
-            sendResponse("file not available");
-        }
-        }
-        else {
+                if (direntry1 === undefined && direntry2 !== undefined) {
+                    createNotification("File Cannot be Moved","Your file: "+fn+" cannot be been moved to: "+"Please provide permission for: "+name +" and try again");
+                } else if (direntry1 !== undefined && direntry2 === undefined) {
+                    createNotification("File Cannot be Moved","Your file: "+fn+" cannot be been moved "+"Please provide permission for: "+name2 +" and try again");
+                } else {
+                    createNotification("File Cannot be Moved","Your file: "+fn+" cannot be been moved "+"Please provide permission for: "+name2 +" and "+name+" and try again");
+                
+                }
+                sendResponse("file not available");
+            }
+        }else {
             sendResponse("error selected null");
+            createNotification("File Cannot be Moved","Your file: "+fn+" cannot be moved, because where to be moved location not given");
         }
+    }
+    else {
+            sendResponse("error selected null");
     }
 });
 
