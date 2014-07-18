@@ -161,6 +161,8 @@ function displayGalleriesAfterDirectories(dirranked,drawtype){
 //    mainillusionarynode.addChild(new Node("/", "/"));
     directories  = dirranked.splice(0,15);
     splitdirectories = [];
+    data["nodes"] = [];
+    data["links"] = [];
     var sepratordetected = false;
     var OSName="Unknown OS";
     if (navigator.appVersion.indexOf("Win")!=-1) globalseprator="\\";
@@ -228,7 +230,7 @@ function displayForceLayout() {
         h = document.getElementsByTagName("body")[0].clientHeight-100,
         radius = d3.scale.log().domain([0, 312000]).range(["10", "50"]);
 
-    var vis = d3.select("body").append("svg:svg")
+    var vis = d3.select("body").append("svg")
                 .attr("width", w)
                 .attr("height", h);
 
