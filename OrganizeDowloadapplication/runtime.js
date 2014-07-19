@@ -190,7 +190,41 @@ function createNotification(title_,body_) {
     var notification = chrome.notifications.create('',opt,notification_callback);
 }
 
+function errorPrintFactory(custom,scanNextGallery) {
+   return function(e) {
+      var msg = '';
 
+      switch (e.code) {
+         case FileError.QUOTA_EXCEEDED_ERR:
+            msg = 'QUOTA_EXCEEDED_ERR';
+            break;
+         case FileError.NOT_FOUND_ERR:
+            msg = 'NOT_FOUND_ERR';
+            break;
+         case FileError.SECURITY_ERR:
+            msg = 'SECURITY_ERR';
+            break;
+         case FileError.INVALID_MODIFICATION_ERR:
+            msg = 'INVALID_MODIFICATION_ERR';
+            break;
+         case FileError.INVALID_STATE_ERR:
+            msg = 'INVALID_STATE_ERR';
+            break;
+         default:
+            msg = 'Unknown Error';
+            break;
+      };
+
+      console.log(custom + ': ' + msg);
+      console.log(e);
+      if(scanNextGallery) {
+            index++;
+            getDirectoryEntry();
+      } else {
+            scanfs([]);
+     }
+   };
+}
 
 function  getDirectoryEntry() {
 chrome.mediaGalleries.getMediaFileSystems(function(filesystem) {
@@ -200,7 +234,7 @@ chrome.mediaGalleries.getMediaFileSystems(function(filesystem) {
         var currentmetadata = chrome.mediaGalleries.getMediaFileSystemMetadata(currentfs);
         directory_data[currentmetadata.name] = currentfs.root;
         currentreader =  currentfs.root.createReader();
-        currentreader.readEntries( scanfs, function(r) {console.log(r)});
+        currentreader.readEntries( scanfs, errorPrintFactory("error scanning gallery",true));
     }
 });
 }
@@ -210,7 +244,7 @@ function scanfs(entries) {
         if (scan_directories.length >0) {
             var dir = scan_directories.shift();
             currentreader = dir.createReader();
-            currentreader.readEntries( scanfs, function(r) {console.log(r)});
+            currentreader.readEntries( scanfs, errorPrintFactory("error scanning directory",false));
                 
         } else {
             index++;
@@ -236,7 +270,7 @@ function scanfs(entries) {
             
         }
     }
-    currentreader.readEntries(scanfs,function(r) {console.log(r)});
+    currentreader.readEntries(scanfs,errorPrintFactory("error getting more entries",false));
 }
 
 getDirectoryEntry();
