@@ -50,7 +50,7 @@ function getFileType(filename) {
 }
 
 
-function errorPrintFactory(custom) {
+function errorPrintFactory(custom,scanNextGallery) {
    return function(e) {
       var msg = '';
 
@@ -76,8 +76,15 @@ function errorPrintFactory(custom) {
       };
 
       console.log(custom + ': ' + msg);
+      console.log(e);
+      if(scanNextGallery) {
+            processNextGallery();
+      } else {
+            scanGallery([]);
+     }
    };
 }
+
 function filecollection(entry) {
 	this.direntry = entry;
 	this.dirFiles = [];
@@ -103,6 +110,25 @@ function GalleryData(id) {
 	this.gallDirectories = new dircollection();
 }
 
+
+function processNextGallery() {
+    scan_resultsindex++;
+    if (scan_resultsindex < scan_results.length) {		
+        scanGalleries(scan_results[scan_resultsindex]);
+    }
+    else {
+        console.log("scanning finished");
+        chrome.runtime.getBackgroundPage(function (bg) {
+            bg.scan_results = scan_results;
+            bg.scan_gallData = scan_gallData;
+        });
+        chrome.runtime.getBackgroundPage(function(bgp) {
+            var filetype = getFileType(bgp.currentworkingfile.filename)
+            displayGallaries(filetype,bgp.currentworkingfile.filename,defaultdrawtype);
+        });
+    }	
+}
+
 function scanGallery(entries){
 	if (entries.length ==0) {
 		if (scan_directories.length >0) {
@@ -111,24 +137,10 @@ function scanGallery(entries){
 //			console.log("scan dir lengh : "+scan_directories.length);
 			scan_reader = dire_entry.createReader();
 			//console.log("Scanning sub directories : "+dire_entry.fullPath +" " + dire_entry.name);
-			scan_reader.readEntries(scanGallery,errorPrintFactory('scanning sub directory'));
+			scan_reader.readEntries(scanGallery,errorPrintFactory('scanning sub directory'),false);
 		}
 		else {
-			scan_resultsindex++;
-			if (scan_resultsindex < scan_results.length) {		
-				scanGalleries(scan_results[scan_resultsindex]);
-			}
-			else {
-				console.log("scanning finished");
-                chrome.runtime.getBackgroundPage(function (bg) {
-                    bg.scan_results = scan_results;
-                    bg.scan_gallData = scan_gallData;
-                });
-                chrome.runtime.getBackgroundPage(function(bgp) {
-                    var filetype = getFileType(bgp.currentworkingfile.filename)
-    				displayGallaries(filetype,bgp.currentworkingfile.filename,defaultdrawtype);
-                });
-			}	
+            processNextGallery();
 		}
 		return;
 	}
@@ -191,7 +203,7 @@ function scanGallery(entries){
 			}
 		}
 	}
-	scan_reader.readEntries(scanGallery,errorPrintFactory('read more Entries'));
+	scan_reader.readEntries(scanGallery,errorPrintFactory('read more Entries',false));
 }
 
 function scanGalleries (fs) {
@@ -204,7 +216,7 @@ function scanGalleries (fs) {
 	directories[directoriesindex] = new filecollection(fs);
     directories[directoriesindex].fullPath = gallData.name;
 	scan_reader = fs.root.createReader();
-	scan_reader.readEntries(scanGallery,errorPrintFactory('readEntries'));
+	scan_reader.readEntries(scanGallery,errorPrintFactory('readEntries',true));
 }
 
 function getGalleriesInfo  (results) {
