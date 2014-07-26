@@ -273,7 +273,7 @@ function scanfs(entries) {
     currentreader.readEntries(scanfs,errorPrintFactory("error getting more entries",false));
 }
 
-getDirectoryEntry();
+//getDirectoryEntry();
 
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
     if (message.filename) {
@@ -307,7 +307,9 @@ var scan_mediagallaries = function () {
 chrome.mediaGalleries.onScanProgress.addListener(function (details) {
 	scan_progress = details;
 	if (details.type == 'finish') {
-		console.log("finished scan");
+		console.log("finished scan");   
+        index=0;
+        getDirectoryEntry();
 	}
 	console.log(" scan function");
 });
