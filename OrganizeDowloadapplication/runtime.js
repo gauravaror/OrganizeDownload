@@ -280,7 +280,7 @@ function scanfs(entries) {
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
     if (message.filename) {
     	console.log("fgf"+message.filename);
-	    chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
+	    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"filename" : String(message.filename) },function(response) { 
 		    console.log(response);
     	});
 	    senderResonsefff("ok");
