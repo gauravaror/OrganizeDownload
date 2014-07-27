@@ -46,11 +46,13 @@ function isSupportedFile(item) {
 function scoreRule(rule,downloadobj) {
     var score = 0;
     var items = 0;
-    for (key in rule) {
-        if (rule[key] != "" && downloadobj[key] && downloadobj[key] != "") {
-            items++;
-            if ((new RegExp(rule[key])).test(downloadobj[key])) {
-                score++;
+    if(rule["enabled"]) {
+        for (key in rule) {
+            if (rule[key] != "" && downloadobj[key] && downloadobj[key] != "") {
+                items++;
+                if ((new RegExp(rule[key])).test(downloadobj[key])) {
+                    score++;
+                }
             }
         }
     }
@@ -278,7 +280,7 @@ function scanfs(entries) {
 chrome.runtime.onMessage.addListener(function(message,sender,senderResonsefff) {
     if (message.filename) {
     	console.log("fgf"+message.filename);
-	    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"filename" : String(message.filename) },function(response) { 
+	    chrome.runtime.sendMessage("ldhjlkdleiclkdbfneaknlbnploleocg",{"filename" : String(message.filename) },function(response) { 
 		    console.log(response);
     	});
 	    senderResonsefff("ok");
