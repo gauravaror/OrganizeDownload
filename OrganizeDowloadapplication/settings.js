@@ -1,13 +1,15 @@
 
-function populate_usingReferenceFilters(){
+function populate_usingReferenceFilters(rule){
     //Getting the reference values from the reference object which came  from the packet.
     var referenceurl = referenceFilterObject.url;
+    var referencetitle = referenceFilterObject.title;
     var referencereferrer  = referenceFilterObject.referrer;
     var referencemime = referenceFilterObject.mime;
     var referencetargetdirectories = referenceFilterObject.targetdirectories;
 
     // Getting the objects on add filter page to populate values;
     var url = document.getElementById("urlfield");
+    var title = document.getElementById("titlefield");
     var referrer = document.getElementById("referrerfield");
     var mime = document.getElementById("mimefield");
     var targetdirectorieselem = document.getElementById("targetdirlist");
@@ -20,6 +22,16 @@ function populate_usingReferenceFilters(){
         a.href = referencereferrer;
         referrer.value = a.hostname;
     }
+
+    if (rule) {
+        url.value = referenceurl;   
+        referrer.value = referencereferrer;
+    }
+
+    if(referencetitle  != "") {
+        title.value =  referencetitle;
+    }
+    
     if (referencemime != "") {
         mime.value = referencemime;
     }
@@ -52,6 +64,7 @@ function populate_usingReferenceFilters(){
 
 function addfilters() {
     //Getting the values from the form of add filter.
+    var title = document.getElementById("titlefield");
     var url = document.getElementById("urlfield");
     var referrer = document.getElementById("referrerfield");
     var mime = document.getElementById("mimefield");
@@ -66,7 +79,7 @@ function addfilters() {
         setTimeout(function(){error.textContent = 'Add Filters:' ; error.style.color = "Black";},1000)
     } else {
     //Creating the filter object.
-        var filterobject= {url: url.value, referrer:referrer.value,mime:mime.value,filename:filename.value,targetdirectories:targetdirectories}
+        var filterobject= { title: title.value , url: url.value, referrer:referrer.value,mime:mime.value,filename:filename.value,targetdirectories:targetdirectories,enabled:true }
         console.log(filterobject);
         chrome.storage.sync.get({
             filters: [],
@@ -84,6 +97,7 @@ function addfilters() {
                 referrer.value = "";
                 mime.value = "";
                 filename.value = "";
+                title.value = "";
                 targetdirectorieselem.selectedIndex = 0;
                 setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000);
                 showFilters();
@@ -109,6 +123,30 @@ function deleteRule(currentfilters,r) {
     
 }
 
+function editRule(currentfilters,r) {
+    (function() {
+        this.referenceFilterObject = currentfilters[r];
+        populate_usingReferenceFilters(true);
+    })();
+    deleteRule(currentfilters,r);
+}
+
+function toggleEnable(currentfilters,r) {
+    console.log("Toggle rule called"+ r);
+    currentfilters[r]["enabled"] = !currentfilters[r]["enabled"];
+    chrome.storage.sync.set({
+        filters: currentfilters    
+    },function(){
+        var success = document.getElementById("info");
+        success.textContent = "Filter Successfully changed:";
+        success.style.color = "Green";
+        success.style.fontSize = "medium";
+        setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000);
+        showFilters();
+    });
+
+}
+
 function showFilters() {
     var showRules =  document.getElementById("showrules");
     while(showRules.firstChild) {
@@ -128,7 +166,7 @@ function showFilters() {
                 upperdiv.className = "oddclassrule";
             }
             for (key in currentfilters[r]) {
-                if (currentfilters[r][key] != ""){
+                if (currentfilters[r][key] != "" && key != "enabled"){
                     var keydiv = document.createElement("div");
                     var keylabel  = document.createElement("label");
                     var textlabel = document.createTextNode(key+" : "+currentfilters[r][key]);
@@ -139,8 +177,23 @@ function showFilters() {
             }
             var button  = document.createElement("button");
             button.innerText = "Delete";
+            button.className     =   "btn btn-default btn-sm";
             button.addEventListener("click",function (val) { return function() { deleteRule(currentfilters,val) }}(r));
+            var disablebutton  = document.createElement("button");
+            disablebutton.className     =   "btn btn-default btn-sm";
+            if(currentfilters[r]["enabled"]) {
+                disablebutton.innerText = "Disable";
+            } else {
+                disablebutton.innerText = "Enable";
+            }
+            disablebutton.addEventListener("click",function (val) { return function() { toggleEnable(currentfilters,val) }}(r));
+            var editbutton  = document.createElement("button");
+            editbutton.innerText = "Edit";
+            editbutton.className     =   "btn btn-default btn-sm";
+            editbutton.addEventListener("click",function (val) { return function() { editRule(currentfilters,val) }}(r));
             upperdiv.appendChild(button);
+            upperdiv.appendChild(disablebutton);
+            upperdiv.appendChild(editbutton);
             showRules.appendChild(upperdiv);        
         }
     
