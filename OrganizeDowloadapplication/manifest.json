@@ -1,6 +1,6 @@
 {
   "name": "Organize Download app",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "manifest_version": 2,
   "description": "App to show folders and select the main",
   "permissions": [{
