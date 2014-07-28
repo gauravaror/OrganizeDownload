@@ -1,7 +1,7 @@
 {
   "name": "OrganizeDowload",
   "description": "Lets you choose where to put the file with suggestions",
-  "version": "1.3",
+  "version": "1.4",
   "manifest_version": 2,
   "minimum_chrome_version": "26.0.1428",
   "background": {
