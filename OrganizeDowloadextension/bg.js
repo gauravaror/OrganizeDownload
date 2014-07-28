@@ -23,9 +23,13 @@ return true;
 });
 
 chrome.runtime.onMessageExternal.addListener( function(message,sender,sendResponse) {
-console.log(message.filename+"  sdfds");
-filename = message.filename;
-sd({overwrite:true, conflict_action: "overwrite" , conflictAction: "overwrite"});
+    if(message.filename) {
+        console.log(message.filename+"  sdfds");
+        filename = message.filename;
+        sd({overwrite:true, conflict_action: "overwrite" , conflictAction: "overwrite"});
+    } else if( message.getDownloadlocation) {
+       sendResponse("/home/gaurav/Download");
+    }
 });
 
 chrome.downloads.onChanged.addListener(function (downloadDelta) {

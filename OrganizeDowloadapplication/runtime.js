@@ -23,6 +23,20 @@ if (navigator.appVersion.indexOf("Mac")!=-1) globalseprator="/";
 if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
 if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
 
+function launchInitalSetup() {
+    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"getDownloadlocation" : null },function(response) { 
+        var downloadDirectoryAvail = directory_data[response] === undefined;
+        var morethan4Dir = Object.keys(directory_data).length > 5 ? true : false;
+        
+        if ( !(downloadDirectoryAvail && morethan4Dir) ) {
+            chrome.app.window.create('initalsetup.html', 
+                {bounds: {width:900, height:700}, minWidth:700, maxWidth: 900, minHeight:600, maxHeight: 700, transparentBackground:true ,id:"InialLayout"}, 
+                function(app_win) {
+                    app_win.contentWindow.downloadDirectory = response;
+                });
+        }
+    });
+}
 
 function scanDir(entries) {
     for (var i =0 ;i< entries.length;i++) {
@@ -255,6 +269,7 @@ function scanfs(entries) {
             } else {
                 console.log("done scanning");
                 scanningdone = true;
+                launchInitalSetup();
                 return;
             }
         }
