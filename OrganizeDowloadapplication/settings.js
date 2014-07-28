@@ -195,6 +195,32 @@ function toggleEnable(currentfilters,r) {
 
 }
 
+function addRuleinDevShowFilter(div,filter) {
+    
+    if(filter["title"] != "")  {
+        var titlediv = document.createElement("div");
+        var keylabel  = document.createElement("h4");
+        var textlabel = document.createTextNode(filter["title"]);
+        keylabel.appendChild(textlabel);
+        titlediv.appendChild(keylabel);
+        div.appendChild(titlediv);
+        div.style.textAlign = "center";
+    }
+    
+    var filteritems = { url: 'URL', referrer: 'Referrer', mime: 'MIME', filename:'FileName',  targetdirectories: 'Target Directory'};
+    for (key in filteritems) {
+        if(filter[key] != "") {
+            var keydiv = document.createElement("div");
+            var keylabel  = document.createElement("label");
+            var textlabel = document.createTextNode(filteritems[key]+" : "+filter[key]);
+            keylabel.appendChild(textlabel);
+            keydiv.appendChild(keylabel);
+            div.appendChild(keydiv);
+        }
+    }
+    
+}
+
 function showFilters() {
     var showRules =  document.getElementById("showrules");
     while(showRules.firstChild) {
@@ -213,16 +239,7 @@ function showFilters() {
             } else {
                 upperdiv.className = "oddclassrule";
             }
-            for (key in currentfilters[r]) {
-                if (currentfilters[r][key] != "" && key != "enabled"){
-                    var keydiv = document.createElement("div");
-                    var keylabel  = document.createElement("label");
-                    var textlabel = document.createTextNode(key+" : "+currentfilters[r][key]);
-                    keylabel.appendChild(textlabel);
-                    keydiv.appendChild(keylabel);
-                    upperdiv.appendChild(keydiv);
-                }
-            }
+            addRuleinDevShowFilter(upperdiv,currentfilters[r]);
             var button  = document.createElement("button");
             button.innerText = "Delete";
             button.className     =   "btn btn-default btn-sm";
