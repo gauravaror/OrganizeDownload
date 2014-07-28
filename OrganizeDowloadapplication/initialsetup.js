@@ -20,13 +20,18 @@ function populateStatus() {
     chrome.runtime.getBackgroundPage(function (bgp) {
         var dirdata = bgp.directory_data;
         var downloadstagestatusdiv = document.getElementById("downloadfolderstagestatus");
-        if(dirdata[downloadDirectory] !== undefined) {
-            downloaddirtest = true;
-            downloadstagestatusdiv.textContent = "Passed";
-            downloadstagestatusdiv.style.color = "green";
+        if(downloadDirectory && downloadDirectory != "") {
+            if(dirdata[downloadDirectory] !== undefined) {
+                downloaddirtest = true;
+                downloadstagestatusdiv.textContent = "Passed";
+                downloadstagestatusdiv.style.color = "green";
+            } else {
+                downloadstagestatusdiv.textContent = "Not Passed";
+                downloadstagestatusdiv.style.color = "red";
+            }
         } else {
-            downloadstagestatusdiv.textContent = "Not Passed";
-            downloadstagestatusdiv.style.color = "red";
+                downloadstagestatusdiv.textContent = "Not able to detect download directory, Please update download directory in above field";
+                downloadstagestatusdiv.style.color = "red";
         }
 
         var permissionstagestatusdiv = document.getElementById("permissionstagestatus");
@@ -82,7 +87,7 @@ function populateStage() {
     document.getElementById('add-folder-button').addEventListener("click", function() {
       chrome.mediaGalleries.addUserSelectedFolder(getGalleriesInfo);
     });
-
+    populateStatus();
 
 }
 
