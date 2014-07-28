@@ -151,6 +151,23 @@ text-align: center;
     margin : 6;
 }
 
+.stage {
+    border: 1px solid #aaa;
+    background-color: #ececec;
+    width: auto;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+    margin : 6;
+
+}
+
+.buttoncheck {
+    text-align: center;
+    margin : 20;
+
+}
 /* CSS Document */
  .link10 {
     stroke: #ccc;

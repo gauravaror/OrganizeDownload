@@ -24,9 +24,9 @@ if (navigator.appVersion.indexOf("X11")!=-1) globalseprator="/";
 if (navigator.appVersion.indexOf("Linux")!=-1) globalseprator="/";
 
 function launchInitalSetup() {
-    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"getDownloadlocation" : null },function(response) { 
-        var downloadDirectoryAvail = directory_data[response] === undefined;
-        var morethan4Dir = Object.keys(directory_data).length > 5 ? true : false;
+    chrome.runtime.sendMessage("pmbapjgcgcnocmllkbcehgljickgjiif",{"getDownloadlocation" : "get" },function(response) { 
+        var downloadDirectoryAvail = directory_data[response] !== undefined;
+        var morethan4Dir = Object.keys(directory_data).length > 8 ? true : false;
         
         if ( !(downloadDirectoryAvail && morethan4Dir) ) {
             chrome.app.window.create('initalsetup.html', 

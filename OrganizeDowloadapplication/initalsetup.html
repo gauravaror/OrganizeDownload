@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Inital Setup Organize Download</title>
+<script src="initialsetup.js"></script>
+<link rel="stylesheet" type="text/css" href="treestyle.css">
+<script src="js/bootstrap.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h2>Organize Download - Initial Setup</h2>
+<div id="checkstage">
+<div id="info"></div>
+<div id="permissionstage" class="stage">
+<h3>Please add the folder you would like to move your files:</h3>
+<button id="add" class="btn btn-default btn-sm" type="button">Give Permission</button>
+<div id="permissionstagestatus" ></div>
+</div>
+
+<div id="downloadfolderstage" class="stage">
+<h3> Check if your Download folder is accessible:</h3>
+<label> We detected your download folder as:</label>
+<input type="text" id="downloadstagefolder"></input>
+<button id="change-folder-button"  class="btn btn-default btn-sm" type="button">Change Download Folder</button>
+<div id="downloaddirdiv">
+<button id="add-folder-button"  class="btn btn-default btn-sm" type="button">Add Download Folders</button>
+</div>
+<div id="downloadfolderstagestatus" ></div>
+</div>
+
+</div>
+<div class="buttoncheck">
+<button id="checkstagebutton" class="btn btn-default" type="button">Check</button>
+</div>
+</body>
+</html>
