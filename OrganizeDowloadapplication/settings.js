@@ -28,7 +28,7 @@ function populate_usingReferenceFilters(rule){
         referrer.value = referencereferrer;
     }
 
-    if(referencetitle  != "") {
+    if( referencetitle &&  referencetitle  != "") {
         title.value =  referencetitle;
     }
     
