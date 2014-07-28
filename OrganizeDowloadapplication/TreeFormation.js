@@ -333,7 +333,7 @@ function displayForceLayout() {
             .duration(300)
             .attr("r", function (d) { return d.size*50;})
             .attr("class", function (d) {
-                return "node type" + 2;
+                return "node type" + 4;
             });
 
 
@@ -342,7 +342,7 @@ function displayForceLayout() {
             var parent_= current_node.getParentNode();
             d3.select("#circle"+parent_.nodeid)
             .attr("class", function (d) {
-                return "node type" + 2;
+                return "node type" + 4;
             });
             current_node = parent_;
         }
