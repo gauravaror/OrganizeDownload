@@ -11,13 +11,13 @@
 <div id="checkstage">
 <div id="info"></div>
 <div id="permissionstage" class="stage">
-<h3>Please add the folder you would like to move your files:</h3>
+<h4>Please add the folder you would like to move your files:</h4>
 <button id="add" class="btn btn-default btn-sm" type="button">Give Permission</button>
 <div id="permissionstagestatus" ></div>
 </div>
 
 <div id="downloadfolderstage" class="stage">
-<h3> Check if your Download folder is accessible:</h3>
+<h4> Check if your Download folder is accessible:</h4>
 <label> We detected your download folder as:</label>
 <input type="text" id="downloadstagefolder"></input>
 <button id="change-folder-button"  class="btn btn-default btn-sm" type="button">Change Download Folder</button>
@@ -27,6 +27,14 @@
 <div id="downloadfolderstagestatus" ></div>
 </div>
 
+<div id="rulesstage" class="stage">
+<h4>Try  installing sample filters: </h4>
+<p>
+You can manage your download, enable, edit filters(rules to move file) from app launcher.</p> 
+<button id="explorefilters" class="btn btn-default btn-sm" type="button">Explore Filters</button>
+<p>Note: This step is not compulsory</p>
+<div id="permissionstagestatus" ></div>
+</div>
 </div>
 <div class="buttoncheck">
 <button id="checkstagebutton" class="btn btn-default" type="button">Check</button>

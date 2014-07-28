@@ -66,9 +66,16 @@ function changeFolder() {
     populateStatus();
 }
 
+function exploreFilters() {
+    chrome.runtime.getBackgroundPage(function (bgp) {
+        bgp.openFilters();
+    });
+}
+
 function populateStage() {
     
     document.getElementById('add').addEventListener('click',add_scan_results);
+    document.getElementById('explorefilters').addEventListener('click',exploreFilters);
     document.getElementById('checkstagebutton').addEventListener('click',checkTests);
     document.getElementById('change-folder-button').addEventListener("click", changeFolder);
     document.getElementById('downloadstagefolder').value = downloadDirectory;
