@@ -80,17 +80,66 @@ function addfilters() {
     } else {
     //Creating the filter object.
         var filterobject= { title: title.value , url: url.value, referrer:referrer.value,mime:mime.value,filename:filename.value,targetdirectories:targetdirectories,enabled:true }
+        var storageobject=[];
+        storageobject.push(filterobject);
         console.log(filterobject);
+        addFilterToStorage(storageobject,"Filter Successfully added:");
+    }
+}
+
+function addSampleFilters() {
+    var targetdirectorieselemoptions = document.getElementById("targetdirlist").options;
+    var directory;
+    for (var i=0;i<targetdirectorieselemoptions.length;i++) {
+        if((new RegExp("image","i")).test(targetdirectorieselemoptions[i].value) || (new RegExp("picture","i")).test(targetdirectorieselemoptions[i].value)) {
+            directory = targetdirectorieselemoptions[i].value;
+        }
+    }
+    var samplefilterobject= [];
+    samplefilterobject.push({enabled: false,
+                filename: "",
+                mime: "image",
+                referrer: "facebook",
+                targetdirectories: directory,
+                title: "Move Facebook images to Picture",
+                url: "fbcdn"});
+    samplefilterobject.push({enabled: false,
+                filename: "",
+                mime: "image",
+                referrer: "dropbox",
+                targetdirectories: directory,
+                title: "Move Drop box images to Pictures",
+                url: "dropbox"});
+    samplefilterobject.push({enabled: false,
+                filename: "",
+                mime: "image",
+                referrer: "pinterest",
+                targetdirectories: directory,
+                title: "Move Pinterest images to Pictures",
+                url: "pinimg"});
+    addFilterToStorage(samplefilterobject,"Please edit added sample rules, change target directories in  rules and enable them if disabled");
+}
+
+function addFilterToStorage(object,message) {
         chrome.storage.sync.get({
             filters: [],
           },function(item) {
             var currentfilters = item.filters;
-            currentfilters.push(filterobject);
+            for(var obj=0;obj<object.length;obj++) {
+                currentfilters.push(object[obj]);
+            }
             chrome.storage.sync.set({
                 filters: currentfilters    
             },function(){
                 var success = document.getElementById("info");
-                success.textContent = "Filter Successfully added:";
+                var title = document.getElementById("titlefield");
+                var url = document.getElementById("urlfield");
+                var referrer = document.getElementById("referrerfield");
+                var mime = document.getElementById("mimefield");
+                var filename = document.getElementById("filenamefield");
+                var targetdirectorieselem = document.getElementById("targetdirlist");
+                var targetdirectories = targetdirectorieselem.options[targetdirectorieselem.selectedIndex].value;
+                success.textContent = message;
                 success.style.color = "Green";
                 success.style.fontSize = "medium";
                 url.value = "";
@@ -99,11 +148,10 @@ function addfilters() {
                 filename.value = "";
                 title.value = "";
                 targetdirectorieselem.selectedIndex = 0;
-                setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},1000);
+                setTimeout(function(){success.textContent = 'Add Filters:' ; success.style.color = "Black";},10000);
                 showFilters();
             });
           });
-    }
 }
 
 function deleteRule(currentfilters,r) {
@@ -202,6 +250,8 @@ function showFilters() {
 function startup_init(){
     var butt = document.getElementById("addfilters");
     butt.addEventListener("click",addfilters);
+    var samplefilterbutt = document.getElementById("installsamplefilters");
+    samplefilterbutt.addEventListener("click",addSampleFilters);
     var buttclose = document.getElementById("closefilters");
     buttclose.addEventListener("click",function() {  window.close();});
     populate_targetdir();
