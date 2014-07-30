@@ -216,6 +216,7 @@ function addRuleinDevShowFilter(div,filter) {
             keylabel.appendChild(textlabel);
             keydiv.appendChild(keylabel);
             div.appendChild(keydiv);
+            div.style.textAlign = "center";
         }
     }
     
