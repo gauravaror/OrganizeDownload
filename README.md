@@ -34,7 +34,7 @@ For the whole flow to work, you need to have both of them. extension is just a f
 
 <a target="_blank" href="https://chrome.google.com/webstore/detail/organize-download-app/ibnikgmjkdnijcigicjpnipibcieobdh"> APP:   ![Try it now in CWS](https://raw.github.com/GoogleChrome/chrome-app-samples/master/tryitnowbutton.png "Click here to install the Organize Dowload App")</a>
 
-Please install extension before application. This helps in application setup  procedure.
+Note:Please install extension before application. This helps in application setup  procedure.
 
 
 ##Demo

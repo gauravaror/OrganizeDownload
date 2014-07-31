@@ -7,7 +7,11 @@ Get it up and running by installing  Organize download extension first followed 
 
 ### 1A Inital setup will open for getting permission to folders and let you explore rules.
 
-As soon as you application does somebackground work. It will open an inital setup menu if required.  Please give permission to Download folder an and other folder you want to move downloaded files.
+As soon as you application completes initial background work of discovering your local disk filesystem. It will open an inital setup menu if required.  Please give permission to Download folder and other folder you want to move downloaded files.
+
+* Permission for Download folders are required, as files are initally downloaded to download folder and then moved to actual location.
+* Permission for other folders are required where you would want to move your file.
+
 
 Try setting the sample filters and explore filters.
 
