@@ -144,7 +144,7 @@ else if (message[0] == "moveFile") {
     console.log(name);
     var direntry1 = directory_data[name];
     console.log(direntry1);
-    if (message[2] !== null) {
+    if (message[2] !== null && message[2] !== undefined) {
         var filename2 = message[2].split(globalseprator);
 //        filename2.splice(filename2.length-1,1);
         var name2 = filename2.join(globalseprator);
