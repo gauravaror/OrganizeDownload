@@ -342,8 +342,9 @@ function openFilters() {
           'height': 700
         }
       });
-    }
-
+    } else if(scan_progress == undefined)  {
+		scan_mediagallaries();
+	}
 }
 chrome.app.runtime.onLaunched.addListener(function() {
     openFilters();
