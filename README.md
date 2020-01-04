@@ -8,7 +8,7 @@ By default chrome will store download files to the pre-fixed download location l
 It would be much easier if i someone could manage, remember or atleast can move the files based on one time rules to predefined location.
 
 
-##Overview 
+## Overview 
 
 Currently, this chrome application does two tasks:
 
@@ -23,7 +23,7 @@ Use Cases:
 2. When you download a file, without thinking a lot about where to store it, get the possible suggestions where to store them.
 
 
-##INSTALL   
+## INSTALL   
 
 
 Organize download application doesn't work alone. It's a combination of Chomium application and a Chromium extension both are names Organize download.
@@ -37,7 +37,7 @@ For the whole flow to work, you need to have both of them. extension is just a f
 Note:Please install extension before application. This helps in application setup  procedure.
 
 
-##Demo
+## Demo
 
 https://github.com/samuelharden/OrganizeDownload/wiki/DEMO-of-Organize-download
 
